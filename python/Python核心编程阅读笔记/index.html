@@ -14,12 +14,12 @@
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://xiaoshaaming.github.io/index.xml">
 
     
-    <title>Python源码剖析阅读笔记 - Lidm&#39;s Blog</title>
-    <meta property='og:title' content="Python源码剖析阅读笔记 - Lidm&#39;s Blog">
+    <title>Python核心编程阅读笔记 - Lidm&#39;s Blog</title>
+    <meta property='og:title' content="Python核心编程阅读笔记 - Lidm&#39;s Blog">
     <meta property="og:type" content="article">
     
 
-    <meta property="og:url" content="https://xiaoshaaming.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+    <meta property="og:url" content="https://xiaoshaaming.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
     
     
 
@@ -32,7 +32,7 @@
       "@type":"WebPage",
       "@id":"https:\/\/xiaoshaaming.github.io\/"
     },
-    "headline": "Python源码剖析阅读笔记 |  ",
+    "headline": "Python核心编程阅读笔记 |  ",
     "image": {
       "@type": "ImageObject",
       "url": "",
@@ -79,10 +79,19 @@
       <article class="single">
         <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/default.jpg);"></div>
         <div class="body">
-          <h1>Python源码剖析阅读笔记</h1>
+          <h1>Python核心编程阅读笔记</h1>
           
 
-<h1 id="python源码剖析阅读笔记:0a14ab8693117c63c5a5fdcd46bf912c"><strong>Python源码剖析阅读笔记</strong></h1>
+<h1 id="python核心编程阅读笔记:67b9b815ad25a6632447fad42db3f8d5"><strong>Python核心编程阅读笔记</strong></h1>
+
+<h1 id="scopes:67b9b815ad25a6632447fad42db3f8d5">scopes</h1>
+
+<p>It is important to realize that scopes are determined textually.
+On the other hand, the actual search for names is done dynamically, at run time — however, the language definition is evolving towards static name resolution, at “compile” time, so don’t rely on dynamic name resolution!</p>
+
+<h1 id="当进入一个新的名字空间或者说作用域时-就算是进入一个code-block了:67b9b815ad25a6632447fad42db3f8d5">当进入一个新的名字空间或者说作用域时，就算是进入一个Code Block了</h1>
+
+<h1 id="lgb与legb:67b9b815ad25a6632447fad42db3f8d5">LGB与LEGB</h1>
 
         </div>
 
@@ -90,10 +99,10 @@
           <section>
             <div>
               <div class="p-share">
-                <a href="http://www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25BA%2590%25E7%25A0%2581%25E5%2589%2596%25E6%259E%2590%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&t=Python%e6%ba%90%e7%a0%81%e5%89%96%e6%9e%90%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-facebook"></i></a>
-                <a href="http://twitter.com/intent/tweet?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25BA%2590%25E7%25A0%2581%25E5%2589%2596%25E6%259E%2590%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&text=Python%e6%ba%90%e7%a0%81%e5%89%96%e6%9e%90%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0&tw_p=tweetbutton" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-twitter"></i></a>
-                <a href="https://plus.google.com/share?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25BA%2590%25E7%25A0%2581%25E5%2589%2596%25E6%259E%2590%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-google-plus"></i></a>
-                <a href="http://getpocket.com/edit?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25BA%2590%25E7%25A0%2581%25E5%2589%2596%25E6%259E%2590%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&title=Python%e6%ba%90%e7%a0%81%e5%89%96%e6%9e%90%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
+                <a href="http://www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25A0%25B8%25E5%25BF%2583%25E7%25BC%2596%25E7%25A8%258B%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&t=Python%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-facebook"></i></a>
+                <a href="http://twitter.com/intent/tweet?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25A0%25B8%25E5%25BF%2583%25E7%25BC%2596%25E7%25A8%258B%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&text=Python%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0&tw_p=tweetbutton" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-twitter"></i></a>
+                <a href="https://plus.google.com/share?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25A0%25B8%25E5%25BF%2583%25E7%25BC%2596%25E7%25A8%258B%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-google-plus"></i></a>
+                <a href="http://getpocket.com/edit?url=https%3a%2f%2fxiaoshaaming.github.io%2fpython%2fPython%25E6%25A0%25B8%25E5%25BF%2583%25E7%25BC%2596%25E7%25A8%258B%25E9%2598%2585%25E8%25AF%25BB%25E7%25AC%2594%25E8%25AE%25B0%2f&title=Python%e6%a0%b8%e5%bf%83%e7%bc%96%e7%a8%8b%e9%98%85%e8%af%bb%e7%ac%94%e8%ae%b0" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
               </div>
             </div>
           </section>
@@ -114,7 +123,10 @@
     <header>Table Of Contents</header>
     <div><nav id="TableOfContents">
 <ul>
-<li><a href="#python源码剖析阅读笔记:0a14ab8693117c63c5a5fdcd46bf912c"><strong>Python源码剖析阅读笔记</strong></a></li>
+<li><a href="#python核心编程阅读笔记:67b9b815ad25a6632447fad42db3f8d5"><strong>Python核心编程阅读笔记</strong></a></li>
+<li><a href="#scopes:67b9b815ad25a6632447fad42db3f8d5">scopes</a></li>
+<li><a href="#当进入一个新的名字空间或者说作用域时-就算是进入一个code-block了:67b9b815ad25a6632447fad42db3f8d5">当进入一个新的名字空间或者说作用域时，就算是进入一个Code Block了</a></li>
+<li><a href="#lgb与legb:67b9b815ad25a6632447fad42db3f8d5">LGB与LEGB</a></li>
 </ul>
 </nav></div>
   </section>
