@@ -82,7 +82,7 @@
           <h1>Python源码剖析阅读笔记</h1>
           
 
-<h1 id="python基础:0a14ab8693117c63c5a5fdcd46bf912c">Python基础</h1>
+<h1 id="00-准备工作:0a14ab8693117c63c5a5fdcd46bf912c">00: 准备工作</h1>
 
 <h2 id="python源码目录:0a14ab8693117c63c5a5fdcd46bf912c">Python源码目录</h2>
 
@@ -104,6 +104,36 @@
 <li><p>make install</p></li>
 </ul>
 
+<h1 id="01-python对象初探:0a14ab8693117c63c5a5fdcd46bf912c">01: Python对象初探</h1>
+
+<h2 id="pyobject-head:0a14ab8693117c63c5a5fdcd46bf912c">PyObject_HEAD</h2>
+
+<pre><code>#define PyObject_HEAD                   \
+    Py_ssize_t ob_refcnt;               \
+    struct _typeobject *ob_type;
+</code></pre>
+
+<h2 id="pyobject:0a14ab8693117c63c5a5fdcd46bf912c">PyObject</h2>
+
+<pre><code>typedef struct _object {      
+    PyObject_HEAD
+} PyObject;
+</code></pre>
+
+<h2 id="pyobject-var-head:0a14ab8693117c63c5a5fdcd46bf912c">PyObject_VAR_HEAD</h2>
+
+<pre><code>#define PyObject_VAR_HEAD               \
+    PyObject_HEAD                       \
+    Py_ssize_t ob_size; /* Number of items in variable part */
+</code></pre>
+
+<h2 id="pyvarobject:0a14ab8693117c63c5a5fdcd46bf912c">PyVarObject</h2>
+
+<pre><code>typedef struct {              
+    PyObject_VAR_HEAD
+} PyVarObject;
+</code></pre>
+
         </div>
       </article>
 
@@ -116,10 +146,17 @@
     <header>Table Of Contents</header>
     <div><nav id="TableOfContents">
 <ul>
-<li><a href="#python基础:0a14ab8693117c63c5a5fdcd46bf912c">Python基础</a>
+<li><a href="#00-准备工作:0a14ab8693117c63c5a5fdcd46bf912c">00: 准备工作</a>
 <ul>
 <li><a href="#python源码目录:0a14ab8693117c63c5a5fdcd46bf912c">Python源码目录</a></li>
 <li><a href="#编译源码:0a14ab8693117c63c5a5fdcd46bf912c">编译源码</a></li>
+</ul></li>
+<li><a href="#01-python对象初探:0a14ab8693117c63c5a5fdcd46bf912c">01: Python对象初探</a>
+<ul>
+<li><a href="#pyobject-head:0a14ab8693117c63c5a5fdcd46bf912c">PyObject_HEAD</a></li>
+<li><a href="#pyobject:0a14ab8693117c63c5a5fdcd46bf912c">PyObject</a></li>
+<li><a href="#pyobject-var-head:0a14ab8693117c63c5a5fdcd46bf912c">PyObject_VAR_HEAD</a></li>
+<li><a href="#pyvarobject:0a14ab8693117c63c5a5fdcd46bf912c">PyVarObject</a></li>
 </ul></li>
 </ul>
 </nav></div>
@@ -159,13 +196,13 @@
 
       
       <article class="li">
-  <a href="https://xiaoshaaming.github.io/archlinux/install/" class="clearfix">
+  <a href="https://xiaoshaaming.github.io/linux/archlinux/" class="clearfix">
     <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/archlinux.png);"></div>
     <footer>
       <div class="date">
         <time>Fri, Jul 15, 2016</time>
       </div>
-      <h2 class="title">install</h2>
+      <h2 class="title">archlinux</h2>
     </footer>
   </a>
 </article>
