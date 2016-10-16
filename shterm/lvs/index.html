@@ -14,14 +14,14 @@
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://xiaoshaaming.github.io/index.xml">
 
     
-    <title>Python核心编程阅读笔记 - Lidm&#39;s Blog</title>
-    <meta property='og:title' content="Python核心编程阅读笔记 - Lidm&#39;s Blog">
+    <title>lvs - Lidm&#39;s Blog</title>
+    <meta property='og:title' content="lvs - Lidm&#39;s Blog">
     <meta property="og:type" content="article">
     
 
-    <meta property="og:url" content="https://xiaoshaaming.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+    <meta property="og:url" content="https://xiaoshaaming.github.io/shterm/lvs/">
     
-    <meta property="og:image" content="https://xiaoshaaming.github.io/images/python.jpg">
+    
 
 
 <script type="application/ld+json">
@@ -32,15 +32,15 @@
       "@type":"WebPage",
       "@id":"https:\/\/xiaoshaaming.github.io\/"
     },
-    "headline": "Python核心编程阅读笔记 |  ",
+    "headline": "lvs |  ",
     "image": {
       "@type": "ImageObject",
       "url": "",
       "height": 700,
       "width": 700
     },
-    "datePublished": "2016-10-08T22:28:53JST",
-    "dateModified": "2016-10-08T22:28:53JST",
+    "datePublished": "2016-10-16T17:16:41JST",
+    "dateModified": "2016-10-16T17:16:41JST",
     "author": {
       "@type": "Person",
       "name": "",
@@ -77,25 +77,60 @@
     <div class="col-md-9">
 
       <article class="single">
-        <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/python.jpg);"></div>
+        <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/default.jpg);"></div>
         <div class="body">
-          <h1>Python核心编程阅读笔记</h1>
+          <h1>lvs</h1>
           
 
-<h1 id="chapter1:67b9b815ad25a6632447fad42db3f8d5">chapter1</h1>
+<h1 id="背景:ef0bbefb4c6ed65bcf87ae9017a80f0f">背景</h1>
 
-<h2 id="python实现:67b9b815ad25a6632447fad42db3f8d5">Python实现</h2>
+<p>提高业务系统的处理能力及可靠性</p>
 
 <ul>
-<li>CPython: C语言</li>
-<li>JPython: Java</li>
-<li>IronPython: C#</li>
-<li>Pypy: Python</li>
+<li>集群：方案采用多节点集群</li>
+<li>负载均衡：调度器</li>
+<li>高可用：HA</li>
 </ul>
 
-<h1 id="chapter2:67b9b815ad25a6632447fad42db3f8d5">chapter2</h1>
+<h1 id="方案:ef0bbefb4c6ed65bcf87ae9017a80f0f">方案</h1>
 
-<h1 id="chapter3:67b9b815ad25a6632447fad42db3f8d5">chapter3</h1>
+<p>pacemaker + lvs + ldirectord</p>
+
+<p>由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。</p>
+
+<p>集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。
+为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。</p>
+
+<h1 id="实施:ef0bbefb4c6ed65bcf87ae9017a80f0f">实施</h1>
+
+<h2 id="lvs资源:ef0bbefb4c6ed65bcf87ae9017a80f0f">lvs资源</h2>
+
+<h2 id="ldirectord:ef0bbefb4c6ed65bcf87ae9017a80f0f">ldirectord</h2>
+
+<h2 id="lvs要求real-server必须禁止arp响应而virtual-server必须支持arp响应-pacemaker定义资源运行在master-slave模式并与ldirectord绑定关系:ef0bbefb4c6ed65bcf87ae9017a80f0f">lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。</h2>
+
+<h1 id="遗留问题:ef0bbefb4c6ed65bcf87ae9017a80f0f">遗留问题</h1>
+
+<ul>
+<li>real server上tcp通过vip连不出来，只能连接到本机</li>
+<li>virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时</li>
+</ul>
+
+<p>该可能跟策略路由有关系</p>
+
+<h1 id="qa:ef0bbefb4c6ed65bcf87ae9017a80f0f">QA</h1>
+
+<h2 id="为什么不用keepalived:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么不用keepalived？</h2>
+
+<p>由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。</p>
+
+<h2 id="为什么使用ldirectord:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么使用ldirectord？</h2>
+
+<p>使用ldirectord来更新lvs的高度规则，简化配置管理。</p>
+
+<h2 id="为什么使用ansible:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么使用ansible?</h2>
+
+<p>为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。</p>
 
         </div>
       </article>
@@ -109,12 +144,21 @@
     <header>Table Of Contents</header>
     <div><nav id="TableOfContents">
 <ul>
-<li><a href="#chapter1:67b9b815ad25a6632447fad42db3f8d5">chapter1</a>
+<li><a href="#背景:ef0bbefb4c6ed65bcf87ae9017a80f0f">背景</a></li>
+<li><a href="#方案:ef0bbefb4c6ed65bcf87ae9017a80f0f">方案</a></li>
+<li><a href="#实施:ef0bbefb4c6ed65bcf87ae9017a80f0f">实施</a>
 <ul>
-<li><a href="#python实现:67b9b815ad25a6632447fad42db3f8d5">Python实现</a></li>
+<li><a href="#lvs资源:ef0bbefb4c6ed65bcf87ae9017a80f0f">lvs资源</a></li>
+<li><a href="#ldirectord:ef0bbefb4c6ed65bcf87ae9017a80f0f">ldirectord</a></li>
+<li><a href="#lvs要求real-server必须禁止arp响应而virtual-server必须支持arp响应-pacemaker定义资源运行在master-slave模式并与ldirectord绑定关系:ef0bbefb4c6ed65bcf87ae9017a80f0f">lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。</a></li>
 </ul></li>
-<li><a href="#chapter2:67b9b815ad25a6632447fad42db3f8d5">chapter2</a></li>
-<li><a href="#chapter3:67b9b815ad25a6632447fad42db3f8d5">chapter3</a></li>
+<li><a href="#遗留问题:ef0bbefb4c6ed65bcf87ae9017a80f0f">遗留问题</a></li>
+<li><a href="#qa:ef0bbefb4c6ed65bcf87ae9017a80f0f">QA</a>
+<ul>
+<li><a href="#为什么不用keepalived:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么不用keepalived？</a></li>
+<li><a href="#为什么使用ldirectord:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么使用ldirectord？</a></li>
+<li><a href="#为什么使用ansible:ef0bbefb4c6ed65bcf87ae9017a80f0f">为什么使用ansible?</a></li>
+</ul></li>
 </ul>
 </nav></div>
   </section>
@@ -186,7 +230,7 @@
     <header>category</header>
     <div>
       <ul>
-        <li><a href="https://xiaoshaaming.github.io/categories/linux">linux</a></li><li><a href="https://xiaoshaaming.github.io/categories/python">python</a></li>
+        <li><a href="https://xiaoshaaming.github.io/categories/python">python</a></li><li><a href="https://xiaoshaaming.github.io/categories/linux">linux</a></li>
       </ul>
     </div>
   </section>

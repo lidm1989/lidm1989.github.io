@@ -14,12 +14,12 @@
     <link rel="alternate" type="application/rss+xml" title="RSS" href="https://xiaoshaaming.github.io/index.xml">
 
     
-    <title>Python - Lidm&#39;s Blog</title>
-    <meta property='og:title' content="Python - Lidm&#39;s Blog">
+    <title>Shterms - Lidm&#39;s Blog</title>
+    <meta property='og:title' content="Shterms - Lidm&#39;s Blog">
     <meta property="og:type" content="article">
     
 
-    <meta property="og:url" content="https://xiaoshaaming.github.io/categories/python/">
+    <meta property="og:url" content="https://xiaoshaaming.github.io/shterm/">
     
     
 
@@ -40,36 +40,20 @@
   <div class="row">
     <div class="col-md-9">
 
-      <h1 class="p-page-title">Python</h1>
+      <h1 class="p-page-title">Shterms</h1>
 
       <div class="row">
         
         <div class="col-sm-4">
           <article class="grid">
-  <a href="https://xiaoshaaming.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
-    <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/python.jpg);"></div>
+  <a href="https://xiaoshaaming.github.io/shterm/lvs/">
+    <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/default.jpg);"></div>
     <footer>
       <div class="date">
-        <time>Sat, Oct 8, 2016</time>
+        <time>Sun, Oct 16, 2016</time>
       </div>
-      <h2 class="title">Python核心编程阅读笔记</h2>
-      <div class="summary">chapter1 Python实现 CPython: C语言 JPython: Java IronPython: C# Pypy: Python chapter2 chapter3</div>
-    </footer>
-  </a>
-</article>
-
-        </div>
-        
-        <div class="col-sm-4">
-          <article class="grid">
-  <a href="https://xiaoshaaming.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
-    <div class="image" style="background-image: url(https://xiaoshaaming.github.io/images/python.jpg);"></div>
-    <footer>
-      <div class="date">
-        <time>Sat, Oct 8, 2016</time>
-      </div>
-      <h2 class="title">Python源码剖析阅读笔记</h2>
-      <div class="summary">00: 准备工作 Python源码目录 Include：该目录包含了Python提供的所有头文件，如果用户需要自己用C或C++来编写自定义模块扩展Python，那么就需要乃至这里提供的头文件。 Lib：该目录包含了Python自带的所有标准库，Lib中的库都是用Python语言编写的。 Modules: 该目录中包含了所有用C语言编写的模块，比如random, cStringIO等。Modules中的模块是那些对速度要求非常严格的模块，而有一些雄起速度没有太严格要求的模块，比如os，就是用Python编写，并且放在Lib目录下的。 Parser: 该目录中包含了Python解释器中的Scanner和Parser部分，即对Python源代码进行词法分析和语法分析的部分。除了之些，Parser目录下还包含了一些有用的工具，这些工具能够根据Python语言的语法自动生成Python语言的词法和语法分析器，与YACC非常类似。 Objects：该目录中包含了所有Python的内建对象，包括整数、list、dict等。同时，该目录还包括了Python在运行时需要的所有的内部使用对象的实现。 Python：该目录下包含了Python解释器中的Compiler和执行引擎部分，是Python运行的核心所在。 编译源码 ./configure make make install 01: Python对象初探 PyObject_HEAD #define PyObject_HEAD \ Py_ssize_t ob_refcnt; \ struct _typeobject *ob_type; PyObject typedef struct _object { PyObject_HEAD } PyObject; PyObject_VAR_HEAD #define PyObject_VAR_HEAD \ PyObject_HEAD \ Py_ssize_t ob_size; /* Number of items in variable part */ PyVarObject typedef struct { PyObject_VAR_HEAD } PyVarObject;</div>
+      <h2 class="title">lvs</h2>
+      <div class="summary">背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA 方案 pacemaker + lvs + ldirectord 由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。 集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。 实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题 real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时 该可能跟策略路由有关系 QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。 为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。 为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。</div>
     </footer>
   </a>
 </article>
