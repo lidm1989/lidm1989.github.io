@@ -1,73 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Lidm&#39;s Blog</title>
-    <link>https://lidm1989.github.io/index.xml</link>
-    <description>Recent content on Lidm&#39;s Blog</description>
+    <title>Python-rsses on Lidm&#39;s Blog</title>
+    <link>https://lidm1989.github.io/python/index.xml</link>
+    <description>Recent content in Python-rsses on Lidm&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 16 Oct 2016 17:16:41 +0800</lastBuildDate>
-    <atom:link href="https://lidm1989.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>lvs</title>
-      <link>https://lidm1989.github.io/shterm/lvs/</link>
-      <pubDate>Sun, 16 Oct 2016 17:16:41 +0800</pubDate>
-      
-      <guid>https://lidm1989.github.io/shterm/lvs/</guid>
-      <description>
-
-&lt;h1 id=&#34;背景&#34;&gt;背景&lt;/h1&gt;
-
-&lt;p&gt;提高业务系统的处理能力及可靠性&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;集群：方案采用多节点集群&lt;/li&gt;
-&lt;li&gt;负载均衡：调度器&lt;/li&gt;
-&lt;li&gt;高可用：HA&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;方案&#34;&gt;方案&lt;/h1&gt;
-
-&lt;p&gt;pacemaker + lvs + ldirectord&lt;/p&gt;
-
-&lt;p&gt;由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。&lt;/p&gt;
-
-&lt;p&gt;集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。
-为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。&lt;/p&gt;
-
-&lt;h1 id=&#34;实施&#34;&gt;实施&lt;/h1&gt;
-
-&lt;h2 id=&#34;lvs资源&#34;&gt;lvs资源&lt;/h2&gt;
-
-&lt;h2 id=&#34;ldirectord&#34;&gt;ldirectord&lt;/h2&gt;
-
-&lt;h2 id=&#34;lvs要求real-server必须禁止arp响应而virtual-server必须支持arp响应-pacemaker定义资源运行在master-slave模式并与ldirectord绑定关系&#34;&gt;lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。&lt;/h2&gt;
-
-&lt;h1 id=&#34;遗留问题&#34;&gt;遗留问题&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;real server上tcp通过vip连不出来，只能连接到本机&lt;/li&gt;
-&lt;li&gt;virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;该可能跟策略路由有关系&lt;/p&gt;
-
-&lt;h1 id=&#34;qa&#34;&gt;QA&lt;/h1&gt;
-
-&lt;h2 id=&#34;为什么不用keepalived&#34;&gt;为什么不用keepalived？&lt;/h2&gt;
-
-&lt;p&gt;由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。&lt;/p&gt;
-
-&lt;h2 id=&#34;为什么使用ldirectord&#34;&gt;为什么使用ldirectord？&lt;/h2&gt;
-
-&lt;p&gt;使用ldirectord来更新lvs的高度规则，简化配置管理。&lt;/p&gt;
-
-&lt;h2 id=&#34;为什么使用ansible&#34;&gt;为什么使用ansible?&lt;/h2&gt;
-
-&lt;p&gt;为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。&lt;/p&gt;
-</description>
-    </item>
+    <lastBuildDate>Sat, 08 Oct 2016 22:28:53 +0800</lastBuildDate>
+    <atom:link href="https://lidm1989.github.io/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Python核心编程阅读笔记</title>
@@ -153,20 +93,6 @@
     PyObject_VAR_HEAD
 } PyVarObject;
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>archlinux</title>
-      <link>https://lidm1989.github.io/linux/archlinux/</link>
-      <pubDate>Fri, 15 Jul 2016 23:47:54 +0800</pubDate>
-      
-      <guid>https://lidm1989.github.io/linux/archlinux/</guid>
-      <description>
-
-&lt;h1 id=&#34;install&#34;&gt;Install&lt;/h1&gt;
-
-&lt;p&gt;Hello Archlinux!&lt;/p&gt;
 </description>
     </item>
     
