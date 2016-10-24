@@ -20,22 +20,22 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>lvs - Lidm&#39;s Blog</title>
+    <title>lvs - Lidm&#39;s blog</title>
     
 <meta name="description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
 
-<meta property="og:title" content="lvs - Lidm&#39;s Blog">
+<meta property="og:title" content="lvs - Lidm&#39;s blog">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lidm1989.github.io/shterm/lvs/">
 <meta property="og:image" content="https://lidm1989.github.io/images/default.png">
-<meta property="og:site_name" content="Lidm&#39;s Blog">
+<meta property="og:site_name" content="Lidm&#39;s blog">
 <meta property="og:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Lidm&#39;s Blog">
+<meta name="twitter:site" content="Lidm&#39;s blog">
 <meta name="twitter:url" content="https://lidm1989.github.io/shterm/lvs/">
-<meta name="twitter:title" content="lvs - Lidm&#39;s Blog">
+<meta name="twitter:title" content="lvs - Lidm&#39;s blog">
 <meta name="twitter:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
 <meta name="twitter:image" content="https://lidm1989.github.io/images/default.png">
 
@@ -48,7 +48,7 @@
       "@type": "WebPage",
       "@id":"https:\/\/lidm1989.github.io\/"
     },
-    "headline": "lvs - Lidm\x27s Blog",
+    "headline": "lvs - Lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
       "url": "https:\/\/lidm1989.github.io\/images\/default.png",
@@ -59,11 +59,11 @@
     "dateModified": "2016-10-16T17:16:41JST",
     "author": {
       "@type": "Person",
-      "name": "Lidm\x27s Blog"
+      "name": "Lidm\x27s blog"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Lidm\x27s Blog",
+      "name": "Lidm\x27s blog",
       "logo": {
         "@type": "ImageObject",
         "url": "https:\/\/lidm1989.github.io\/images/logo.png",
@@ -91,7 +91,7 @@
     <header class="l-header">
       <div class="container">
         <div class="p-logo">
-          <a href="https://lidm1989.github.io/" class="h-logo">Lidm&#39;s Blog</a>
+          <a href="https://lidm1989.github.io/" class="h-logo">Lidm&#39;s blog</a>
         </div>
       </div>
     </header>
@@ -181,6 +181,8 @@
   <footer class="article-footer">
     <div class="content-inner">
 
+      
+
       <nav class="p-crumb">
         <ol>
           <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
@@ -242,7 +244,7 @@
         
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb"></a>
+  <a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python核心编程阅读笔记</a></div>
 
@@ -256,7 +258,7 @@
         <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb"></a>
+  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></div>
 
@@ -270,7 +272,7 @@
         
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb"></a>
+  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/archlinux.png);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/linux/archlinux/">archlinux</a></div>
 
@@ -317,7 +319,7 @@
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Lidm&#39;s Blog</span></p>
+        <p><span class="h-logo">&copy; Lidm&#39;s blog</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
