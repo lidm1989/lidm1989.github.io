@@ -67,30 +67,16 @@
       
     </ul>
 
-    <div class="summary"> linux下常用调试工具
-strace 简介 strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
-示例 strace cat /dev/null strace -p &lt;pid&gt;  常用选项 -p &lt;pid&gt; # 指定特定进程 -o &lt;filename&gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  </div>
+    <div class="summary">linux下常用调试工具
+fuser 简介 fuser使用文件或者套节字来识别进程。
+示例 fuser &lt;filename&gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof 简介 lsof（list open files）列出当前系统打开文件。
+示例 lsof lsof -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -c &lt;cmd&gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack 简介 gstack打印的堆栈信息。
+示例 gstack &lt;pid&gt;  strace 简介 strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
+示例 strace cat /dev/null strace -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -o &lt;filename&gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump 简介 tcpdump抓包。</div>
   </div>
 </article>
 </div>
       
-      
-      <div class="col-sm-6 col-xs-12"><article class="li">
-  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/archlinux.png);"></a>
-  <div class="content-inner thin">
-    <h2 class="title"><a href="https://lidm1989.github.io/linux/archlinux/">archlinux</a></h2>
-
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-07-15T23:47:54JST">Jul 15, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
-      
-    </ul>
-
-    <div class="summary">Install Hello Archlinux!</div>
-  </div>
-</article>
-</div>
-      <div class="col-sm-12"></div>
       
     </div>
 
@@ -160,20 +146,6 @@ strace 简介 strace常用来跟踪进程执行时的系统调用和所接收的
 </article>
 </div>
         <div class="col-sm-12"></div>
-        
-        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/archlinux.png);"></a>
-  <header>
-    <div class="title"><a href="https://lidm1989.github.io/linux/archlinux/">archlinux</a></div>
-
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-07-15T23:47:54JST">Jul 15, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
-    </ul>
-  </header>
-</article>
-</div>
-        
         
       </div>
     </div>
