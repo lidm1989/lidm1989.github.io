@@ -64,11 +64,11 @@
     </ul>
 
     <div class="summary">linux下常用调试工具
-fuser 简介 fuser使用文件或者套节字来识别进程。
-示例 fuser &lt;filename&gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof 简介 lsof（list open files）列出当前系统打开文件。
-示例 lsof lsof -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -c &lt;cmd&gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack 简介 gstack打印的堆栈信息。
-示例 gstack &lt;pid&gt;  strace 简介 strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
-示例 strace cat /dev/null strace -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -o &lt;filename&gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump 简介 tcpdump抓包。</div>
+fuser fuser使用文件或者套节字来识别进程
+示例 fuser &lt;filename&gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件
+示例 lsof lsof -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -c &lt;cmd&gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息
+示例 gstack &lt;pid&gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
+示例 strace cat /dev/null strace -p 1234  常用选项 -p &lt;pid&gt; # 指定特定进程 -o &lt;filename&gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包</div>
   </div>
 </article>
 </div>
