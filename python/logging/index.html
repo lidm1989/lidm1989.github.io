@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="https://lidm1989.github.io/images/logo.png">
 
 
-<link rel="canonical" href="https://lidm1989.github.io/linux/archlinux/">
+<link rel="canonical" href="https://lidm1989.github.io/python/logging/">
 
 
     
@@ -20,24 +20,24 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>archlinux - Lidm&#39;s blog</title>
+    <title>logging - lidm&#39;s blog</title>
     
-<meta name="description" content="Install Hello Archlinux!">
+<meta name="description" content="一个简单的例子 import logging logging.warning(&#39;Watch out!&#39;) # 输出到控制台 logging.info(&#39;I told you so&#39;) # 什么都不输出  输出:WARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。try: 1/0 except: logging.exception(&#39;Excepion:&#39;)  输出:ERROR:root:Excepion: Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 2, in &amp;lt;module&amp;gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=&#39;example.log&#39;,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件: Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-&amp;gt;handlers-&amp;gt;filters-&amp;gt;formatters。">
 
-<meta property="og:title" content="archlinux - Lidm&#39;s blog">
+<meta property="og:title" content="logging - lidm&#39;s blog">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://lidm1989.github.io/linux/archlinux/">
-<meta property="og:image" content="https://lidm1989.github.io/images/archlinux.png">
-<meta property="og:site_name" content="Lidm&#39;s blog">
-<meta property="og:description" content="Install Hello Archlinux!">
+<meta property="og:url" content="https://lidm1989.github.io/python/logging/">
+<meta property="og:image" content="https://lidm1989.github.io/images/python/python.jpg">
+<meta property="og:site_name" content="lidm&#39;s blog">
+<meta property="og:description" content="一个简单的例子 import logging logging.warning(&#39;Watch out!&#39;) # 输出到控制台 logging.info(&#39;I told you so&#39;) # 什么都不输出  输出:WARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。try: 1/0 except: logging.exception(&#39;Excepion:&#39;)  输出:ERROR:root:Excepion: Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 2, in &amp;lt;module&amp;gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=&#39;example.log&#39;,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件: Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-&amp;gt;handlers-&amp;gt;filters-&amp;gt;formatters。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Lidm&#39;s blog">
-<meta name="twitter:url" content="https://lidm1989.github.io/linux/archlinux/">
-<meta name="twitter:title" content="archlinux - Lidm&#39;s blog">
-<meta name="twitter:description" content="Install Hello Archlinux!">
-<meta name="twitter:image" content="https://lidm1989.github.io/images/archlinux.png">
+<meta name="twitter:site" content="lidm&#39;s blog">
+<meta name="twitter:url" content="https://lidm1989.github.io/python/logging/">
+<meta name="twitter:title" content="logging - lidm&#39;s blog">
+<meta name="twitter:description" content="一个简单的例子 import logging logging.warning(&#39;Watch out!&#39;) # 输出到控制台 logging.info(&#39;I told you so&#39;) # 什么都不输出  输出:WARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。try: 1/0 except: logging.exception(&#39;Excepion:&#39;)  输出:ERROR:root:Excepion: Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 2, in &amp;lt;module&amp;gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=&#39;example.log&#39;,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件: Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-&amp;gt;handlers-&amp;gt;filters-&amp;gt;formatters。">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/python/python.jpg">
 
 
 <script type="application/ld+json">
@@ -48,22 +48,22 @@
       "@type": "WebPage",
       "@id":"https:\/\/lidm1989.github.io\/"
     },
-    "headline": "archlinux - Lidm\x27s blog",
+    "headline": "logging - lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
-      "url": "https:\/\/lidm1989.github.io\/images\/archlinux.png",
+      "url": "https:\/\/lidm1989.github.io\/images\/python\/python.jpg",
       "height": 800,
       "width": 800
     },
-    "datePublished": "2016-07-15T23:47:54JST",
-    "dateModified": "2016-07-15T23:47:54JST",
+    "datePublished": "2016-10-08T22:28:53JST",
+    "dateModified": "2016-10-08T22:28:53JST",
     "author": {
       "@type": "Person",
-      "name": "Lidm\x27s blog"
+      "name": "lidm\x27s blog"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Lidm\x27s blog",
+      "name": "lidm\x27s blog",
       "logo": {
         "@type": "ImageObject",
         "url": "https:\/\/lidm1989.github.io\/images/logo.png",
@@ -71,7 +71,7 @@
         "height": 60
       }
     },
-    "description": "Install Hello Archlinux!"
+    "description": "一个简单的例子 import logging logging.warning(\x27Watch out!\x27) # 输出到控制台 logging.info(\x27I told you so\x27) # 什么都不输出  输出:\nWARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。\n异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。\ntry: 1\/0 except: logging.exception(\x27Excepion:\x27)  输出:\nERROR:root:Excepion: Traceback (most recent call last): File \x26quot;\x26lt;stdin\x26gt;\x26quot;, line 2, in \x26lt;module\x26gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=\x27example.log\x27,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。\n高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件:\n Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-\x26gt;handlers-\x26gt;filters-\x26gt;formatters。"
   }
 </script>
 
@@ -91,7 +91,7 @@
     <header class="l-header">
       <div class="container">
         <div class="p-logo">
-          <a href="https://lidm1989.github.io/" class="h-logo">Lidm&#39;s blog</a>
+          <a href="https://lidm1989.github.io/" class="h-logo">lidm&#39;s blog</a>
         </div>
       </div>
     </header>
@@ -106,29 +106,110 @@
       <ol>
         <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
         
-        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/linux/" itemprop="url"><span itemprop="title">linux</span></a></li>
+        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/python/" itemprop="url"><span itemprop="title">python</span></a></li>
         
-        <li class="active">archlinux</li>
+        <li class="active">logging</li>
       </ol>
     </nav>
 
     <article class="single">
 
-  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/archlinux.png);"></a>
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <div class="content-inner">
-    <h1 class="title">archlinux</h1>
+    <h1 class="title">logging</h1>
 
     <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-07-15T23:47:54JST">Jul 15, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
       
     </ul>
 
     <div class="article-body">
 
-<h1 id="install">Install</h1>
+<h1 id="一个简单的例子">一个简单的例子</h1>
 
-<p>Hello Archlinux!</p>
+<pre><code>import logging
+logging.warning('Watch out!')  # 输出到控制台
+logging.info('I told you so')  # 什么都不输出
+</code></pre>
+
+<p>输出:</p>
+
+<pre><code>WARNING:root:Watch out!
+</code></pre>
+
+<p>logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。</p>
+
+<h1 id="异常处理">异常处理</h1>
+
+<p>logging为异常专门提供了<code>logger.exception()</code>接口以便输出异常，该接口只应该在异常处理时使用。</p>
+
+<pre><code>try:
+    1/0
+except:
+    logging.exception('Excepion:')
+</code></pre>
+
+<p>输出:</p>
+
+<pre><code>ERROR:root:Excepion:
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+ZeroDivisionError: integer division or modulo by zero
+</code></pre>
+
+<h1 id="配置日志">配置日志</h1>
+
+<pre><code>logging.basicConfig(filename='example.log',level=logging.DEBUG)
+</code></pre>
+
+<p>basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。</p>
+
+<h1 id="高级话题">高级话题</h1>
+
+<p>logging模块提供了loggers, handlers, filters, and formatters更加现代的组件:</p>
+
+<ul>
+<li>Loggers:    暴露接口以便应用程序直接调用</li>
+<li>Handlers:   将日志发送到相应目的地</li>
+<li>Filters:    对日志进行过滤</li>
+<li>Formatters: 指定日志的输出格式</li>
+</ul>
+
+<p>日志的传输方向为: looggers-&gt;handlers-&gt;filters-&gt;formatters。</p>
+
+<p>logger在概念上处于一个树形结构的名字空间。例如：scan是scan.text、scan.html和scan.pdf的父亲。logger的名字可以是任意字符串，但通常使用模块名:</p>
+
+<pre><code>logger = logging.getLogger(__name__)
+</code></pre>
+
+<p>logger的根结点的名字为root:</p>
+
+<pre><code>logger = logging.getLogger() 等价于 logger = logger.getLogger('')
+</code></pre>
+
+<h1 id="日志流">日志流</h1>
+
+<p><img src="/images/python/logging_flow.png" alt="日志流" /></p>
+
+<h1 id="loggers">Loggers</h1>
+
+<p>logger对象有三个任务。</p>
+
+<ol>
+<li>导出接口以便应用程序进行调用</li>
+<li>通过filter对日志进程过滤</li>
+<li>将日志转发到感兴趣的logger对象</li>
+</ol>
+
+<p>child loggers会转发日志到ancestor loggers，由属性<code>logger.propagate</code>进行控制。鉴于此，通常只在root logger里设置handlers。</p>
+
+<h1 id="参考资料">参考资料</h1>
+
+<ul>
+<li><a href="https://docs.python.org/2/library/logging.html">官方文档-Python2)</a></li>
+<li><a href="https://docs.python.org/3/library/logging.html">官方文档-Python3)</a></li>
+</ul>
 </div>
   </div>
 
@@ -136,7 +217,7 @@
     <div class="content-inner">
 
       
-<div class="ds-thread" data-thread-key="/linux/archlinux/" data-title="archlinux" data-url="https://lidm1989.github.io/linux/archlinux/"></div>
+<div class="ds-thread" data-thread-key="/python/logging/" data-title="logging" data-url="https://lidm1989.github.io/python/logging/"></div>
 
 
 <script type="text/javascript">
@@ -153,35 +234,6 @@ var duoshuoQuery = {short_name:"lidongming"};
 
 
 
-      <nav class="p-crumb">
-        <ol>
-          <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-          
-          <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/linux/" itemprop="url"><span itemprop="title">linux</span></a></li>
-          
-          <li class="active">archlinux</li>
-        </ol>
-      </nav>
-
-      
-      
-      
-      <section class="article-footer">
-        <header>
-          <a href="https://lidm1989.github.io/categories/">CATEGORIES</a>
-        </header>
-        <div>
-          <ul class="p-terms inline">
-            
-            <li><a href="https://lidm1989.github.io/categories/linux/">linux</a></li>
-            
-          </ul>
-        </div>
-      </section>
-      
-      
-      
-      
     </div>
   </footer>
 
@@ -200,7 +252,7 @@ var duoshuoQuery = {short_name:"lidongming"};
       <div class="row">
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/debug.jpg);"></a>
+  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">常用调试工具</a></div>
 
@@ -228,21 +280,7 @@ var duoshuoQuery = {short_name:"lidongming"};
         <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
-  <header>
-    <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python核心编程阅读笔记</a></div>
-
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
-    </ul>
-  </header>
-</article>
-</div>
-        
-        
-        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></div>
 
@@ -253,21 +291,21 @@ var duoshuoQuery = {short_name:"lidongming"};
   </header>
 </article>
 </div>
-        <div class="col-sm-12"></div>
+        
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/archlinux/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/archlinux.png);"></a>
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <header>
-    <div class="title"><a href="https://lidm1989.github.io/linux/archlinux/">archlinux</a></div>
+    <div class="title"><a href="https://lidm1989.github.io/python/logging/">logging</a></div>
 
     <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-07-15T23:47:54JST">Jul 15, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
     </ul>
   </header>
 </article>
 </div>
-        
+        <div class="col-sm-12"></div>
         
       </div>
     </div>
@@ -303,7 +341,7 @@ var duoshuoQuery = {short_name:"lidongming"};
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Lidm&#39;s blog</span></p>
+        <p><span class="h-logo">&copy; lidm&#39;s blog</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

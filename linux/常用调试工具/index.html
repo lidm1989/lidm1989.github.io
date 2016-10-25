@@ -20,24 +20,24 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>常用调试工具 - Lidm&#39;s blog</title>
+    <title>常用调试工具 - lidm&#39;s blog</title>
     
 <meta name="description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
 
-<meta property="og:title" content="常用调试工具 - Lidm&#39;s blog">
+<meta property="og:title" content="常用调试工具 - lidm&#39;s blog">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
-<meta property="og:image" content="https://lidm1989.github.io/images/debug.jpg">
-<meta property="og:site_name" content="Lidm&#39;s blog">
+<meta property="og:image" content="https://lidm1989.github.io/images/linux/debug.jpg">
+<meta property="og:site_name" content="lidm&#39;s blog">
 <meta property="og:description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Lidm&#39;s blog">
+<meta name="twitter:site" content="lidm&#39;s blog">
 <meta name="twitter:url" content="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
-<meta name="twitter:title" content="常用调试工具 - Lidm&#39;s blog">
+<meta name="twitter:title" content="常用调试工具 - lidm&#39;s blog">
 <meta name="twitter:description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
-<meta name="twitter:image" content="https://lidm1989.github.io/images/debug.jpg">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/linux/debug.jpg">
 
 
 <script type="application/ld+json">
@@ -48,10 +48,10 @@
       "@type": "WebPage",
       "@id":"https:\/\/lidm1989.github.io\/"
     },
-    "headline": "常用调试工具 - Lidm\x27s blog",
+    "headline": "常用调试工具 - lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
-      "url": "https:\/\/lidm1989.github.io\/images\/debug.jpg",
+      "url": "https:\/\/lidm1989.github.io\/images\/linux\/debug.jpg",
       "height": 800,
       "width": 800
     },
@@ -59,11 +59,11 @@
     "dateModified": "2016-10-24T21:14:38JST",
     "author": {
       "@type": "Person",
-      "name": "Lidm\x27s blog"
+      "name": "lidm\x27s blog"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Lidm\x27s blog",
+      "name": "lidm\x27s blog",
       "logo": {
         "@type": "ImageObject",
         "url": "https:\/\/lidm1989.github.io\/images/logo.png",
@@ -91,7 +91,7 @@
     <header class="l-header">
       <div class="container">
         <div class="p-logo">
-          <a href="https://lidm1989.github.io/" class="h-logo">Lidm&#39;s blog</a>
+          <a href="https://lidm1989.github.io/" class="h-logo">lidm&#39;s blog</a>
         </div>
       </div>
     </header>
@@ -114,7 +114,7 @@
 
     <article class="single">
 
-  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/debug.jpg);"></a>
+  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
   <div class="content-inner">
     <h1 class="title">常用调试工具</h1>
 
@@ -227,35 +227,6 @@ var duoshuoQuery = {short_name:"lidongming"};
 
 
 
-      <nav class="p-crumb">
-        <ol>
-          <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-          
-          <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/linux/" itemprop="url"><span itemprop="title">linux</span></a></li>
-          
-          <li class="active">常用调试工具</li>
-        </ol>
-      </nav>
-
-      
-      
-      
-      <section class="article-footer">
-        <header>
-          <a href="https://lidm1989.github.io/categories/">CATEGORIES</a>
-        </header>
-        <div>
-          <ul class="p-terms inline">
-            
-            <li><a href="https://lidm1989.github.io/categories/linux/">linux</a></li>
-            
-          </ul>
-        </div>
-      </section>
-      
-      
-      
-      
     </div>
   </footer>
 
@@ -274,7 +245,7 @@ var duoshuoQuery = {short_name:"lidongming"};
       <div class="row">
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/debug.jpg);"></a>
+  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">常用调试工具</a></div>
 
@@ -302,9 +273,9 @@ var duoshuoQuery = {short_name:"lidongming"};
         <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <header>
-    <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python核心编程阅读笔记</a></div>
+    <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></div>
 
     <ul class="p-facts">
       <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
@@ -316,9 +287,9 @@ var duoshuoQuery = {short_name:"lidongming"};
         
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <header>
-    <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></div>
+    <div class="title"><a href="https://lidm1989.github.io/python/logging/">logging</a></div>
 
     <ul class="p-facts">
       <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
@@ -363,7 +334,7 @@ var duoshuoQuery = {short_name:"lidongming"};
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Lidm&#39;s blog</span></p>
+        <p><span class="h-logo">&copy; lidm&#39;s blog</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
