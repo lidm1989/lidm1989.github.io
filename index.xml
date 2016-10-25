@@ -291,7 +291,11 @@ ZeroDivisionError: integer division or modulo by zero
 
 &lt;h1 id=&#34;日志流&#34;&gt;日志流&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://lidm1989.github.io/images/python/logging_flow.png&#34; alt=&#34;日志流&#34; /&gt;&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/python/logging_flow.png&#34; alt=&#34;logging images/python/logging_flow.png&#34;&gt;
+  
+&lt;/figure&gt;
+
 
 &lt;h1 id=&#34;loggers&#34;&gt;Loggers&lt;/h1&gt;
 
@@ -308,8 +312,8 @@ ZeroDivisionError: integer division or modulo by zero
 &lt;h1 id=&#34;参考资料&#34;&gt;参考资料&lt;/h1&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.python.org/2/library/logging.html&#34;&gt;官方文档-Python2)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.python.org/3/library/logging.html&#34;&gt;官方文档-Python3)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.python.org/2/library/logging.html&#34;&gt;官方文档-Python2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.python.org/3/library/logging.html&#34;&gt;官方文档-Python3&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
