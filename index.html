@@ -53,9 +53,9 @@
     <div class="row">
       
       <div class="col-sm-6 col-xs-12"><article class="li">
-  <a href="https://lidm1989.github.io/linux/iptables/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
+  <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
   <div class="content-inner thin">
-    <h2 class="title"><a href="https://lidm1989.github.io/linux/iptables/">windows通过linux上网</a></h2>
+    <h2 class="title"><a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/">记windows通过linux共享上网</a></h2>
 
     <ul class="p-facts">
       <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-29T22:31:40JST">Oct 29, 2016</time></li>
@@ -63,8 +63,9 @@
       
     </ul>
 
-    <div class="summary">背景 女朋友笔记本的无线网卡突然不工作了，尝试有线还是好的，但是网线连接到路由器不够长。我本人台式机装的是archlinux，一块有线网卡，一块USB无线网卡。作为一个标准的四眼码农，关键时候怎能不好好表现一下。
-通过共享linux有线网络实线windows上网  archlinux台式机一台，双网卡，一块有线网卡（没用），一块USB无线网卡（正常上网） windows7笔记本一台，双网卡, 一块有线网卡（没用），一块无线网卡（已坏） 双绞线一根  基本配置  用网线连接两块有线网卡 配置ip转发sysctl net.ipv4.ip_forward=1 配置nat伪装iptables -t nat -A POSTROUTING -j MASQUERADE 分配网有线网卡在192.168.1.0/24网段，无线默认是在192.168.0.0/24网段 分配linux有线网卡ip为192.168.1.2/24 配置windows ip: 192.168.1.3，mask: 255.255.255.0, gateway: 192.168.1.2 配置windows dns为linux dns  观察网络 在linux上观察windows ping百度的网络数据：
+    <div class="summary">背景 女友家用笔记本的无线网卡突然罢工了，尝试有线还是能用的。但是网线连接到路由器不够长。我本人台式机装的是archlinux，一块有线网卡，一块USB无线网卡，平时使用USB无线网卡上网。两电脑距离较近，使用网线完全合适，于是想到能不能让windows通过linux上网。作为一个爱折腾的码农，关键时候怎能不好好表现一下，说干就干。
+环境  windows7笔记本一台，双网卡, 一块有线网卡（没用），一块无线网卡（已坏） archlinux台式机一台，双网卡，一块有线网卡（没用），一块USB无线网卡（正常上网） 普通网线（双绞线）一根  目的：通过网线连接两块有线网卡，使windows通过linux上网
+配置步骤  用网线连接两块有线网卡 开启ip转发sysctl net.ipv4.ip_forward=1 开启nat伪装iptables -t nat -A POSTROUTING -j MASQUERADE 配置linux有线网卡静态IP: 192.168.1.2/24 配置windows有线网卡静态IP: 192.168.1.3，MASK: 255.255.255.0, GATEWAY: 192.168.1.2 配置windows的DNS为linux机器上的DNS或者google公共DNS: 8.8.8.8  观察网络 在linux上观察windows ping百度的网络数据，其中192.168.0.114是linux上USB无线网卡的IP地址：
 [root@arch ~]# tcpdump -i any -nn icmp tcpdump: verbose output suppressed, use -v or -vv for full protocol decode listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes 23:00:03.298518 IP 192.168.1.3 &gt; 115.</div>
   </div>
 </article>
@@ -175,9 +176,9 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
       <div class="row">
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/linux/iptables/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
+  <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
   <header>
-    <div class="title"><a href="https://lidm1989.github.io/linux/iptables/">windows通过linux上网</a></div>
+    <div class="title"><a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/">记windows通过linux共享上网</a></div>
 
     <ul class="p-facts">
       <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-29T22:31:40JST">Oct 29, 2016</time></li>
@@ -262,7 +263,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
     <header>tag</header>
     <div>
       <ul class="p-terms">
-        
+        <li><a href="https://lidm1989.github.io/tags/iptables">iptables</a></li>
       </ul>
     </div>
   </section>
