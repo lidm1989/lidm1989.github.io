@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux-rsses on lidm&#39;s blog</title>
+    <title>Linux-rsses on 李东明的自留地</title>
     <link>https://lidm1989.github.io/linux/index.xml</link>
-    <description>Recent content in Linux-rsses on lidm&#39;s blog</description>
+    <description>Recent content in Linux-rsses on 李东明的自留地</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <lastBuildDate>Sat, 29 Oct 2016 22:31:40 +0800</lastBuildDate>
