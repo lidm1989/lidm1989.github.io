@@ -20,24 +20,24 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>lvs - 李东明的自留地</title>
+    <title>lvs - lidm&#39;s blog</title>
     
-<meta name="description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
+<meta name="description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。文件名：lvs#!/bin/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation.">
 
-<meta property="og:title" content="lvs - 李东明的自留地">
+<meta property="og:title" content="lvs - lidm&#39;s blog">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lidm1989.github.io/shterm/lvs/">
-<meta property="og:image" content="https://lidm1989.github.io/images/default.png">
-<meta property="og:site_name" content="李东明的自留地">
-<meta property="og:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
+<meta property="og:image" content="https://lidm1989.github.io/images/shterm/lvs.png">
+<meta property="og:site_name" content="lidm&#39;s blog">
+<meta property="og:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。文件名：lvs#!/bin/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="李东明的自留地">
+<meta name="twitter:site" content="lidm&#39;s blog">
 <meta name="twitter:url" content="https://lidm1989.github.io/shterm/lvs/">
-<meta name="twitter:title" content="lvs - 李东明的自留地">
-<meta name="twitter:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系QA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。">
-<meta name="twitter:image" content="https://lidm1989.github.io/images/default.png">
+<meta name="twitter:title" content="lvs - lidm&#39;s blog">
+<meta name="twitter:description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。文件名：lvs#!/bin/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation.">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/shterm/lvs.png">
 
 
 <script type="application/ld+json">
@@ -48,10 +48,10 @@
       "@type": "WebPage",
       "@id":"https:\/\/lidm1989.github.io\/"
     },
-    "headline": "lvs - 李东明的自留地",
+    "headline": "lvs - lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
-      "url": "https:\/\/lidm1989.github.io\/images\/default.png",
+      "url": "https:\/\/lidm1989.github.io\/images\/shterm\/lvs.png",
       "height": 800,
       "width": 800
     },
@@ -59,11 +59,11 @@
     "dateModified": "2016-10-16T17:16:41JST",
     "author": {
       "@type": "Person",
-      "name": "李东明的自留地"
+      "name": "lidm\x27s blog"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "李东明的自留地",
+      "name": "lidm\x27s blog",
       "logo": {
         "@type": "ImageObject",
         "url": "https:\/\/lidm1989.github.io\/images/logo.png",
@@ -71,7 +71,7 @@
         "height": 60
       }
     },
-    "description": "背景 提高业务系统的处理能力及可靠性\n 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker \x2b lvs \x2b ldirectord\n由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。\n集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。\n实施 lvs资源 ldirectord lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master\/Slave模式并与ldirectord绑定关系。 遗留问题  real server上tcp通过vip连不出来，只能连接到本机 virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时  该可能跟策略路由有关系\nQA 为什么不用keepalived？ 由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。\n为什么使用ldirectord？ 使用ldirectord来更新lvs的高度规则，简化配置管理。\n为什么使用ansible? 为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。"
+    "description": "背景 提高业务系统的处理能力及可靠性\n 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker \x2b lvs \x2b ldirectord\n由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。\n集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。\n实施 由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master\/Slave模式并与ldirectord绑定关系。\nlvs资源 lvs运行在master\/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。\n响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于\/usr\/lib\/ocf\/resource.d\/heartbeat\/IPaddr。\n以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于\/usr\/lib\/ocf\/resource.d\/pacemaker\/Stateful。\n文件名：lvs\n#!\/bin\/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and\/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation."
   }
 </script>
 
@@ -91,7 +91,7 @@
     <header class="l-header">
       <div class="container">
         <div class="p-logo">
-          <a href="https://lidm1989.github.io/" class="h-logo">李东明的自留地</a>
+          <a href="https://lidm1989.github.io/" class="h-logo">lidm&#39;s blog</a>
         </div>
       </div>
     </header>
@@ -114,7 +114,7 @@
 
     <article class="single">
 
-  <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb"></a>
+  <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
   <div class="content-inner">
     <h1 class="title">lvs</h1>
 
@@ -147,34 +147,475 @@
 
 <h1 id="实施">实施</h1>
 
-<h2 id="lvs资源">lvs资源</h2>
+<p>由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。</p>
 
-<h2 id="ldirectord">ldirectord</h2>
+<h3 id="lvs资源">lvs资源</h3>
 
-<h2 id="lvs要求real-server必须禁止arp响应而virtual-server必须支持arp响应-pacemaker定义资源运行在master-slave模式并与ldirectord绑定关系">lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。</h2>
+<p>lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。</p>
+
+<p>响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。</p>
+
+<p>以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。</p>
+
+<p><strong>文件名：lvs</strong></p>
+
+<pre><code>#!/bin/sh
+#
+#
+#   Example of a stateful OCF Resource Agent. 
+#
+# Copyright (c) 2006 Andrew Beekhof
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it would be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# Further, this software is distributed without any warranty that it is
+# free of the rightful claim of any third person regarding infringement
+# or the like.  Any license provided herein, whether implied or
+# otherwise, applies only to this software file.  Patent licenses, if
+# any, provided herein do not apply to combinations of this program with
+# other software, or any other product whatsoever.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write the Free Software Foundation,
+# Inc., 59 Temple Place - Suite 330, Boston MA 02111-1307, USA.
+#
+
+#######################################################################
+# Initialization:
+
+: ${OCF_FUNCTIONS=${OCF_ROOT}/resource.d/heartbeat/.ocf-shellfuncs}
+. ${OCF_FUNCTIONS}
+: ${__OCF_ACTION=$1}
+CRM_MASTER=&quot;${HA_SBIN_DIR}/crm_master -l reboot&quot;
+
+NIC=$OCF_RESKEY_nic
+VIP=$OCF_RESKEY_vip
+PREFIX=$OCF_RESKEY_vip_prefix
+PREFIX=32
+PORT=80
+
+#######################################################################
+
+meta_data() {
+    cat &lt;&lt;END
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE resource-agent SYSTEM &quot;ra-api-1.dtd&quot;&gt;
+&lt;resource-agent name=&quot;Stateful&quot; version=&quot;1.0&quot;&gt;
+&lt;version&gt;1.0&lt;/version&gt;
+
+&lt;longdesc lang=&quot;en&quot;&gt;
+This is an example resource agent that impliments two states
+&lt;/longdesc&gt;
+&lt;shortdesc lang=&quot;en&quot;&gt;Example stateful resource agent&lt;/shortdesc&gt;
+
+&lt;parameters&gt;
+
+&lt;parameter name=&quot;state&quot; unique=&quot;1&quot;&gt;
+&lt;longdesc lang=&quot;en&quot;&gt;
+Location to store the resource state in
+&lt;/longdesc&gt;
+&lt;shortdesc lang=&quot;en&quot;&gt;State file&lt;/shortdesc&gt;
+&lt;content type=&quot;string&quot; default=&quot;${HA_VARRUN}/Stateful-{OCF_RESOURCE_INSTANCE}.state&quot; /&gt;
+&lt;/parameter&gt;
+
+&lt;parameter name=&quot;nic&quot;&gt;
+&lt;longdesc lang=&quot;en&quot;&gt;network interface card&lt;/longdesc&gt;
+&lt;shortdesc lang=&quot;en&quot;&gt;nic&lt;/shortdesc&gt;
+&lt;content type=&quot;string&quot; default=&quot;eth0&quot;/&gt;
+&lt;/parameter&gt;
+
+&lt;parameter name=&quot;vip&quot; required=&quot;1&quot;&gt;
+&lt;longdesc lang=&quot;en&quot;&gt;virtual ip&lt;/longdesc&gt;
+&lt;shortdesc lang=&quot;en&quot;&gt;vip&lt;/shortdesc&gt;
+&lt;content type=&quot;string&quot;/&gt;
+&lt;/parameter&gt;
+
+&lt;parameter name=&quot;vip_prefix&quot;&gt;
+&lt;longdesc lang=&quot;en&quot;&gt;virtual ip prefix&lt;/longdesc&gt;
+&lt;shortdesc lang=&quot;en&quot;&gt;prefix&lt;/shortdesc&gt;
+&lt;content type=&quot;string&quot; default=&quot;32&quot;/&gt;
+&lt;/parameter&gt;
+
+&lt;/parameters&gt;
+
+&lt;actions&gt;
+&lt;action name=&quot;start&quot;   timeout=&quot;20&quot; /&gt;
+&lt;action name=&quot;stop&quot;    timeout=&quot;20&quot; /&gt;
+&lt;action name=&quot;monitor&quot; depth=&quot;0&quot;  timeout=&quot;20&quot; interval=&quot;10&quot; role=&quot;Master&quot;/&gt;
+&lt;action name=&quot;monitor&quot; depth=&quot;0&quot;  timeout=&quot;20&quot; interval=&quot;10&quot; role=&quot;Slave&quot;/&gt;
+&lt;action name=&quot;meta-data&quot;  timeout=&quot;5&quot; /&gt;
+&lt;action name=&quot;validate-all&quot;  timeout=&quot;30&quot; /&gt;
+&lt;/actions&gt;
+&lt;/resource-agent&gt;
+END
+    exit $OCF_SUCCESS
+}
+
+#######################################################################
+
+lvs_cleanup() {
+    ip addr del dev lo $VIP/$PREFIX
+    ip addr del dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=0
+
+    sysctl net.ipv4.conf.all.arp_ignore=0
+    sysctl net.ipv4.conf.all.arp_announce=0
+    sysctl net.ipv4.conf.lo.arp_ignore=0
+    sysctl net.ipv4.conf.lo.arp_announce=0
+
+    return $OCF_SUCCESS
+}
+
+lvs_master() {
+    ip addr del dev lo $VIP/$PREFIX
+    ip addr add dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=1
+
+    sysctl net.ipv4.conf.all.arp_ignore=0
+    sysctl net.ipv4.conf.all.arp_announce=0
+    sysctl net.ipv4.conf.lo.arp_ignore=0
+    sysctl net.ipv4.conf.lo.arp_announce=0
+
+    ipvsadm -C
+
+    /usr/libexec/heartbeat/send_arp -i 200 -r 5  $NIC $VIP auto not_used not_used
+
+    return $OCF_SUCCESS
+}
+
+lvs_slave() {
+    ip addr add dev lo $VIP/$PREFIX
+    ip addr del dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=1
+
+    sysctl net.ipv4.conf.all.arp_ignore=1
+    sysctl net.ipv4.conf.all.arp_announce=2
+    sysctl net.ipv4.conf.lo.arp_ignore=1
+    sysctl net.ipv4.conf.lo.arp_announce=2
+
+    ipvsadm -C
+
+    return $OCF_SUCCESS
+}
+
+stateful_usage() {
+    cat &lt;&lt;END
+usage: $0 {start|stop|promote|demote|monitor|validate-all|meta-data}
+
+Expects to have a fully populated OCF RA-compliant environment set.
+END
+    exit $1
+}
+
+stateful_update() {
+    echo $1 &gt; ${OCF_RESKEY_state}
+}
+
+stateful_check_state() {
+    target=$1
+    if [ -f ${OCF_RESKEY_state} ]; then
+    state=`cat ${OCF_RESKEY_state}`
+    if [ &quot;x$target&quot; = &quot;x$state&quot; ]; then
+        return 0
+    fi
+
+    else
+    if [ &quot;x$target&quot; = &quot;x&quot; ]; then
+        return 0
+    fi
+    fi
+
+    return 1
+}
+
+stateful_start() {
+    stateful_check_state master
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_RUNNING_MASTER
+    fi
+    stateful_update slave
+    lvs_slave
+    $CRM_MASTER -v ${slave_score}
+    return 0
+}
+
+stateful_demote() {
+    stateful_check_state 
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_NOT_RUNNING
+    fi
+    stateful_update slave
+    lvs_slave
+    $CRM_MASTER -v ${slave_score}
+    return 0
+}
+
+stateful_promote() {
+    stateful_check_state 
+    if [ $? = 0 ]; then
+    return $OCF_NOT_RUNNING
+    fi
+    stateful_update master
+    lvs_master
+    $CRM_MASTER -v ${master_score}
+    return 0
+}
+
+stateful_stop() {
+    lvs_cleanup
+    $CRM_MASTER -D
+    stateful_check_state master
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_RUNNING_MASTER
+    fi
+    if [ -f ${OCF_RESKEY_state} ]; then
+    rm ${OCF_RESKEY_state}
+    fi
+    return 0
+}
+
+stateful_monitor() {
+    stateful_check_state &quot;master&quot;
+    if [ $? = 0 ]; then
+    if [ $OCF_RESKEY_CRM_meta_interval = 0 ]; then
+        # Restore the master setting during probes
+        $CRM_MASTER -v ${master_score}
+    fi
+    return $OCF_RUNNING_MASTER
+    fi
+
+    stateful_check_state &quot;slave&quot;
+    if [ $? = 0 ]; then
+    if [ $OCF_RESKEY_CRM_meta_interval = 0 ]; then
+        # Restore the master setting during probes
+        $CRM_MASTER -v ${slave_score}
+    fi
+    return $OCF_SUCCESS
+    fi
+
+    if [ -f ${OCF_RESKEY_state} ]; then
+    echo &quot;File '${OCF_RESKEY_state}' exists but contains unexpected contents&quot;
+    cat ${OCF_RESKEY_state}
+    return $OCF_ERR_GENERIC
+    fi
+    return 7
+}
+
+stateful_validate() {
+    exit $OCF_SUCCESS
+}
+
+: ${slave_score=5}
+: ${master_score=10}
+
+: ${OCF_RESKEY_CRM_meta_interval=0}
+: ${OCF_RESKEY_CRM_meta_globally_unique:=&quot;true&quot;}
+
+if [ &quot;x$OCF_RESKEY_state&quot; = &quot;x&quot; ]; then
+    if [ ${OCF_RESKEY_CRM_meta_globally_unique} = &quot;false&quot; ]; then
+    state=&quot;${HA_VARRUN}/Stateful-${OCF_RESOURCE_INSTANCE}.state&quot;
+
+    # Strip off the trailing clone marker
+    OCF_RESKEY_state=`echo $state | sed s/:[0-9][0-9]*\.state/.state/`
+    else 
+    OCF_RESKEY_state=&quot;${HA_VARRUN}/Stateful-${OCF_RESOURCE_INSTANCE}.state&quot;
+    fi
+fi
+
+case $__OCF_ACTION in
+meta-data)  meta_data;;
+start)      stateful_start;;
+promote)    stateful_promote;;
+demote)     stateful_demote;;
+stop)       stateful_stop;;
+monitor)    stateful_monitor;;
+validate-all)   stateful_validate;;
+usage|help) stateful_usage $OCF_SUCCESS;;
+*)      stateful_usage $OCF_ERR_UNIMPLEMENTED;;
+esac
+
+exit $?
+</code></pre>
+
+<h3 id="ldirectord">ldirectord</h3>
+
+<p>ldirectord需从官网下载安装。</p>
+
+<p>由于ldirectord没有提供相应agent，我们这里也要增加相应agent。agent脚本可由pacemaker提供的模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Dummy。</p>
+
+<p>这里为了简单，使用了systemd的agent。</p>
+
+<p><strong>文件名： ldirectord.service</strong></p>
+
+<pre><code>[Unit]
+Description=ldirectord.service
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/ldirectord.ldirectord.pid
+ExecStart=/sbin/ldirectord restart
+ExecStop=/sbin/ldirectord stop
+ExecReload=/sbin/ldirectord reload
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<h3 id="inventory">inventory</h3>
+
+<p>资产文件设置了三个主机，使用cluster用户进行部署。请根据实际情况进行调整。</p>
+
+<p><strong>文件名： hosts</strong></p>
+
+<pre><code>[nodes]
+node1 ip=192.168.122.111 ansible_user=cluster
+node2 ip=192.168.122.112 ansible_user=cluster
+node3 ip=192.168.122.113 ansible_user=cluster
+
+[nodes:vars]
+vip=192.168.122.100
+port=80
+</code></pre>
+
+<h3 id="ldirectord-cf-j2">ldirectord.cf.j2</h3>
+
+<p>ldirectord配置文件，请根据实际情况进行调整。</p>
+
+<p><strong>文件名： ldirectord.cf.j2</strong></p>
+
+<pre><code>checktimeout=3
+checkinterval=10
+autoreload=yes
+quiescent=yes
+
+virtual={{ vip }}:{{ port }}
+{% for host in groups['nodes'] %}
+    real={{ hostvars[host].ip }}:{{ port }} gate
+{% endfor %}
+    checkport={{ port }}
+    checktype=connect
+    service=simpletcp
+    scheduler=lc
+    protocol=tcp
+</code></pre>
+
+<h3 id="playbook">playbook</h3>
+
+<p>ansible使用pcs对pacemaker进行配置</p>
+
+<p>这里密码写死123456。网卡为eth0。vip为192.168.122.100。</p>
+
+<p><strong>文件名： lvs.yml</strong></p>
+
+<pre><code>---
+- hosts: nodes
+  become: yes
+  tasks:
+  - name: Set a password for the hacluster user
+    user: name=hacluster password=$6$rounds=656000$JBKx3dx31baJQ.zA$uBwQqkpLY/0SV7JxEHdKGcXfjQx6NZgvKoiZ/Z13NTFjn96UyTAqEKYjaGhJbY1lnT/F2c6zSITD8gpAEiMIe. update_password=always
+  - name: Enable pcs
+    service: name=pcsd.service state=started enabled=yes
+  - name: Authenticate the hacluster user
+    command: /usr/sbin/pcs cluster auth {{ groups['nodes'] | join(' ') }} -u hacluster -p 123456
+    run_once: true
+  - name: Generate and synchronize the corosync
+    command: /usr/sbin/pcs cluster setup --name mycluster {{ groups['nodes'] | join(' ') }}
+    run_once: true
+  - name: Enable corysync
+    service: name=corosync.service state=started enabled=yes
+  - name: Enable pacemaker
+    service: name=pacemaker.service state=started enabled=yes
+  - name: Set property stonith
+    command: /usr/sbin/pcs property set stonith-enabled=false
+    run_once: true
+  - name: Set rosource defaults
+    command: /usr/sbin/pcs resource defaults resource-stickiness=100
+    run_once: true
+
+  - name: Create lvs agent
+    copy: src={{ playbook_dir }}/lvs dest=/usr/lib/ocf/resource.d/heartbeat/lvs mode=755
+  - name: Create lvs resource
+    command: /usr/sbin/pcs resource create lvs ocf:heartbeat:lvs params nic=eth0 vip=192.168.122.100 --master
+    run_once: true
+
+  - name: Create ldirectord.cf
+    template: src={{ playbook_dir }}/ldirectord.cf.j2 dest=/etc/ha.d/ldirectord.cf     
+  - name: Create ldirectord.service
+    copy: src={{ playbook_dir }}/ldirectord.service dest=/etc/systemd/system/ldirectord.service
+  - name: Create ldirectord resource
+    command: /usr/sbin/pcs resource create ldirectord systemd:ldirectord
+    run_once: true
+
+  - name: Create colocation constraint
+    command: /usr/sbin/pcs constraint colocation add ldirectord with master lvs-master
+    run_once: true
+  - name: Create order constraint
+    command: /usr/sbin/pcs constraint order promote lvs-master then ldirectord
+    run_once: true
+</code></pre>
+
+<h1 id="部署">部署</h1>
+
+<p>ansible的配置这里省略了。部署命令：</p>
+
+<pre><code>ansible-playbook -i hosts lvs.yml -v
+</code></pre>
+
+<h1 id="验证">验证</h1>
+
+<p>在各机器启用验证实例：</p>
+
+<pre><code>nc -l 80 -e /usr/bin/hostname -k
+</code></pre>
+
+<p>在其它节点验证：</p>
+
+<pre><code>curl 192.168.122.100
+</code></pre>
 
 <h1 id="遗留问题">遗留问题</h1>
 
 <ul>
-<li>real server上tcp通过vip连不出来，只能连接到本机</li>
-<li>virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时</li>
+<li>real server上不要连接vip，tcp通过vip连不出来，只能连接到本机。</li>
+<li>virtial server上不要连接vip，tcp通过vip如果刚好调度到本机可以连通，如果调度到real server上tcp超时。</li>
 </ul>
 
-<p>该可能跟策略路由有关系</p>
+<p>以上两点可能跟策略路由有关系，该问题可由应用程序解决。</p>
 
-<h1 id="qa">QA</h1>
+<ul>
+<li>断网卡时vip可能挂不上<strong>（硬伤）</strong>。corosync能检测到，但pacemaker没有动作。</li>
+</ul>
 
-<h2 id="为什么不用keepalived">为什么不用keepalived？</h2>
+<p>这点是硬伤，还需要进一步调查。</p>
 
-<p>由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。</p>
+<h1 id="q-a">Q&amp;A</h1>
 
-<h2 id="为什么使用ldirectord">为什么使用ldirectord？</h2>
+<h3 id="为什么使用ldirectord">为什么使用ldirectord？</h3>
 
 <p>使用ldirectord来更新lvs的高度规则，简化配置管理。</p>
 
-<h2 id="为什么使用ansible">为什么使用ansible?</h2>
+<h3 id="为什么不用keepalived">为什么不用keepalived？</h3>
 
-<p>为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。</p>
+<p>如果只使用lvs调度，由于keepalived集成了ldirectord与pacemaker的功能，更简单。</p>
+
+<p>但由于我们项目中还有其它服务要进行集群管理，使用pacemaker更灵活。</p>
+
+<h3 id="为什么使用ansible">为什么使用ansible?</h3>
+
+<p>为了简化集群部署，使用ansible部署工具实现集群一键部署的目标，如上只要一条命令就可以部署集群。</p>
 </div>
   </div>
 
@@ -259,7 +700,7 @@ var duoshuoQuery = {short_name:"lidongming"};
         <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb"></a>
+  <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/shterm/lvs/">lvs</a></div>
 
@@ -334,7 +775,7 @@ var duoshuoQuery = {short_name:"lidongming"};
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; 李东明的自留地</span></p>
+        <p><span class="h-logo">&copy; lidm&#39;s blog</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

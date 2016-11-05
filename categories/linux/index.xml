@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>李东明的自留地</title>
+    <title>lidm&#39;s blog</title>
     <link>https://lidm1989.github.io/categories/linux/index.xml</link>
-    <description>Recent content on 李东明的自留地</description>
+    <description>Recent content on lidm&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <atom:link href="https://lidm1989.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
@@ -189,34 +189,475 @@ strace -p 1234
 
 &lt;h1 id=&#34;实施&#34;&gt;实施&lt;/h1&gt;
 
-&lt;h2 id=&#34;lvs资源&#34;&gt;lvs资源&lt;/h2&gt;
+&lt;p&gt;由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。&lt;/p&gt;
 
-&lt;h2 id=&#34;ldirectord&#34;&gt;ldirectord&lt;/h2&gt;
+&lt;h3 id=&#34;lvs资源&#34;&gt;lvs资源&lt;/h3&gt;
 
-&lt;h2 id=&#34;lvs要求real-server必须禁止arp响应而virtual-server必须支持arp响应-pacemaker定义资源运行在master-slave模式并与ldirectord绑定关系&#34;&gt;lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。&lt;/h2&gt;
+&lt;p&gt;lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。&lt;/p&gt;
+
+&lt;p&gt;响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。&lt;/p&gt;
+
+&lt;p&gt;以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;文件名：lvs&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+#
+#
+#   Example of a stateful OCF Resource Agent. 
+#
+# Copyright (c) 2006 Andrew Beekhof
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it would be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# Further, this software is distributed without any warranty that it is
+# free of the rightful claim of any third person regarding infringement
+# or the like.  Any license provided herein, whether implied or
+# otherwise, applies only to this software file.  Patent licenses, if
+# any, provided herein do not apply to combinations of this program with
+# other software, or any other product whatsoever.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write the Free Software Foundation,
+# Inc., 59 Temple Place - Suite 330, Boston MA 02111-1307, USA.
+#
+
+#######################################################################
+# Initialization:
+
+: ${OCF_FUNCTIONS=${OCF_ROOT}/resource.d/heartbeat/.ocf-shellfuncs}
+. ${OCF_FUNCTIONS}
+: ${__OCF_ACTION=$1}
+CRM_MASTER=&amp;quot;${HA_SBIN_DIR}/crm_master -l reboot&amp;quot;
+
+NIC=$OCF_RESKEY_nic
+VIP=$OCF_RESKEY_vip
+PREFIX=$OCF_RESKEY_vip_prefix
+PREFIX=32
+PORT=80
+
+#######################################################################
+
+meta_data() {
+    cat &amp;lt;&amp;lt;END
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;
+&amp;lt;!DOCTYPE resource-agent SYSTEM &amp;quot;ra-api-1.dtd&amp;quot;&amp;gt;
+&amp;lt;resource-agent name=&amp;quot;Stateful&amp;quot; version=&amp;quot;1.0&amp;quot;&amp;gt;
+&amp;lt;version&amp;gt;1.0&amp;lt;/version&amp;gt;
+
+&amp;lt;longdesc lang=&amp;quot;en&amp;quot;&amp;gt;
+This is an example resource agent that impliments two states
+&amp;lt;/longdesc&amp;gt;
+&amp;lt;shortdesc lang=&amp;quot;en&amp;quot;&amp;gt;Example stateful resource agent&amp;lt;/shortdesc&amp;gt;
+
+&amp;lt;parameters&amp;gt;
+
+&amp;lt;parameter name=&amp;quot;state&amp;quot; unique=&amp;quot;1&amp;quot;&amp;gt;
+&amp;lt;longdesc lang=&amp;quot;en&amp;quot;&amp;gt;
+Location to store the resource state in
+&amp;lt;/longdesc&amp;gt;
+&amp;lt;shortdesc lang=&amp;quot;en&amp;quot;&amp;gt;State file&amp;lt;/shortdesc&amp;gt;
+&amp;lt;content type=&amp;quot;string&amp;quot; default=&amp;quot;${HA_VARRUN}/Stateful-{OCF_RESOURCE_INSTANCE}.state&amp;quot; /&amp;gt;
+&amp;lt;/parameter&amp;gt;
+
+&amp;lt;parameter name=&amp;quot;nic&amp;quot;&amp;gt;
+&amp;lt;longdesc lang=&amp;quot;en&amp;quot;&amp;gt;network interface card&amp;lt;/longdesc&amp;gt;
+&amp;lt;shortdesc lang=&amp;quot;en&amp;quot;&amp;gt;nic&amp;lt;/shortdesc&amp;gt;
+&amp;lt;content type=&amp;quot;string&amp;quot; default=&amp;quot;eth0&amp;quot;/&amp;gt;
+&amp;lt;/parameter&amp;gt;
+
+&amp;lt;parameter name=&amp;quot;vip&amp;quot; required=&amp;quot;1&amp;quot;&amp;gt;
+&amp;lt;longdesc lang=&amp;quot;en&amp;quot;&amp;gt;virtual ip&amp;lt;/longdesc&amp;gt;
+&amp;lt;shortdesc lang=&amp;quot;en&amp;quot;&amp;gt;vip&amp;lt;/shortdesc&amp;gt;
+&amp;lt;content type=&amp;quot;string&amp;quot;/&amp;gt;
+&amp;lt;/parameter&amp;gt;
+
+&amp;lt;parameter name=&amp;quot;vip_prefix&amp;quot;&amp;gt;
+&amp;lt;longdesc lang=&amp;quot;en&amp;quot;&amp;gt;virtual ip prefix&amp;lt;/longdesc&amp;gt;
+&amp;lt;shortdesc lang=&amp;quot;en&amp;quot;&amp;gt;prefix&amp;lt;/shortdesc&amp;gt;
+&amp;lt;content type=&amp;quot;string&amp;quot; default=&amp;quot;32&amp;quot;/&amp;gt;
+&amp;lt;/parameter&amp;gt;
+
+&amp;lt;/parameters&amp;gt;
+
+&amp;lt;actions&amp;gt;
+&amp;lt;action name=&amp;quot;start&amp;quot;   timeout=&amp;quot;20&amp;quot; /&amp;gt;
+&amp;lt;action name=&amp;quot;stop&amp;quot;    timeout=&amp;quot;20&amp;quot; /&amp;gt;
+&amp;lt;action name=&amp;quot;monitor&amp;quot; depth=&amp;quot;0&amp;quot;  timeout=&amp;quot;20&amp;quot; interval=&amp;quot;10&amp;quot; role=&amp;quot;Master&amp;quot;/&amp;gt;
+&amp;lt;action name=&amp;quot;monitor&amp;quot; depth=&amp;quot;0&amp;quot;  timeout=&amp;quot;20&amp;quot; interval=&amp;quot;10&amp;quot; role=&amp;quot;Slave&amp;quot;/&amp;gt;
+&amp;lt;action name=&amp;quot;meta-data&amp;quot;  timeout=&amp;quot;5&amp;quot; /&amp;gt;
+&amp;lt;action name=&amp;quot;validate-all&amp;quot;  timeout=&amp;quot;30&amp;quot; /&amp;gt;
+&amp;lt;/actions&amp;gt;
+&amp;lt;/resource-agent&amp;gt;
+END
+    exit $OCF_SUCCESS
+}
+
+#######################################################################
+
+lvs_cleanup() {
+    ip addr del dev lo $VIP/$PREFIX
+    ip addr del dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=0
+
+    sysctl net.ipv4.conf.all.arp_ignore=0
+    sysctl net.ipv4.conf.all.arp_announce=0
+    sysctl net.ipv4.conf.lo.arp_ignore=0
+    sysctl net.ipv4.conf.lo.arp_announce=0
+
+    return $OCF_SUCCESS
+}
+
+lvs_master() {
+    ip addr del dev lo $VIP/$PREFIX
+    ip addr add dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=1
+
+    sysctl net.ipv4.conf.all.arp_ignore=0
+    sysctl net.ipv4.conf.all.arp_announce=0
+    sysctl net.ipv4.conf.lo.arp_ignore=0
+    sysctl net.ipv4.conf.lo.arp_announce=0
+
+    ipvsadm -C
+
+    /usr/libexec/heartbeat/send_arp -i 200 -r 5  $NIC $VIP auto not_used not_used
+
+    return $OCF_SUCCESS
+}
+
+lvs_slave() {
+    ip addr add dev lo $VIP/$PREFIX
+    ip addr del dev $NIC $VIP/$PREFIX
+
+    sysctl net.ipv4.conf.all.forwarding=1
+
+    sysctl net.ipv4.conf.all.arp_ignore=1
+    sysctl net.ipv4.conf.all.arp_announce=2
+    sysctl net.ipv4.conf.lo.arp_ignore=1
+    sysctl net.ipv4.conf.lo.arp_announce=2
+
+    ipvsadm -C
+
+    return $OCF_SUCCESS
+}
+
+stateful_usage() {
+    cat &amp;lt;&amp;lt;END
+usage: $0 {start|stop|promote|demote|monitor|validate-all|meta-data}
+
+Expects to have a fully populated OCF RA-compliant environment set.
+END
+    exit $1
+}
+
+stateful_update() {
+    echo $1 &amp;gt; ${OCF_RESKEY_state}
+}
+
+stateful_check_state() {
+    target=$1
+    if [ -f ${OCF_RESKEY_state} ]; then
+    state=`cat ${OCF_RESKEY_state}`
+    if [ &amp;quot;x$target&amp;quot; = &amp;quot;x$state&amp;quot; ]; then
+        return 0
+    fi
+
+    else
+    if [ &amp;quot;x$target&amp;quot; = &amp;quot;x&amp;quot; ]; then
+        return 0
+    fi
+    fi
+
+    return 1
+}
+
+stateful_start() {
+    stateful_check_state master
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_RUNNING_MASTER
+    fi
+    stateful_update slave
+    lvs_slave
+    $CRM_MASTER -v ${slave_score}
+    return 0
+}
+
+stateful_demote() {
+    stateful_check_state 
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_NOT_RUNNING
+    fi
+    stateful_update slave
+    lvs_slave
+    $CRM_MASTER -v ${slave_score}
+    return 0
+}
+
+stateful_promote() {
+    stateful_check_state 
+    if [ $? = 0 ]; then
+    return $OCF_NOT_RUNNING
+    fi
+    stateful_update master
+    lvs_master
+    $CRM_MASTER -v ${master_score}
+    return 0
+}
+
+stateful_stop() {
+    lvs_cleanup
+    $CRM_MASTER -D
+    stateful_check_state master
+    if [ $? = 0 ]; then
+        # CRM Error - Should never happen
+    return $OCF_RUNNING_MASTER
+    fi
+    if [ -f ${OCF_RESKEY_state} ]; then
+    rm ${OCF_RESKEY_state}
+    fi
+    return 0
+}
+
+stateful_monitor() {
+    stateful_check_state &amp;quot;master&amp;quot;
+    if [ $? = 0 ]; then
+    if [ $OCF_RESKEY_CRM_meta_interval = 0 ]; then
+        # Restore the master setting during probes
+        $CRM_MASTER -v ${master_score}
+    fi
+    return $OCF_RUNNING_MASTER
+    fi
+
+    stateful_check_state &amp;quot;slave&amp;quot;
+    if [ $? = 0 ]; then
+    if [ $OCF_RESKEY_CRM_meta_interval = 0 ]; then
+        # Restore the master setting during probes
+        $CRM_MASTER -v ${slave_score}
+    fi
+    return $OCF_SUCCESS
+    fi
+
+    if [ -f ${OCF_RESKEY_state} ]; then
+    echo &amp;quot;File &#39;${OCF_RESKEY_state}&#39; exists but contains unexpected contents&amp;quot;
+    cat ${OCF_RESKEY_state}
+    return $OCF_ERR_GENERIC
+    fi
+    return 7
+}
+
+stateful_validate() {
+    exit $OCF_SUCCESS
+}
+
+: ${slave_score=5}
+: ${master_score=10}
+
+: ${OCF_RESKEY_CRM_meta_interval=0}
+: ${OCF_RESKEY_CRM_meta_globally_unique:=&amp;quot;true&amp;quot;}
+
+if [ &amp;quot;x$OCF_RESKEY_state&amp;quot; = &amp;quot;x&amp;quot; ]; then
+    if [ ${OCF_RESKEY_CRM_meta_globally_unique} = &amp;quot;false&amp;quot; ]; then
+    state=&amp;quot;${HA_VARRUN}/Stateful-${OCF_RESOURCE_INSTANCE}.state&amp;quot;
+
+    # Strip off the trailing clone marker
+    OCF_RESKEY_state=`echo $state | sed s/:[0-9][0-9]*\.state/.state/`
+    else 
+    OCF_RESKEY_state=&amp;quot;${HA_VARRUN}/Stateful-${OCF_RESOURCE_INSTANCE}.state&amp;quot;
+    fi
+fi
+
+case $__OCF_ACTION in
+meta-data)  meta_data;;
+start)      stateful_start;;
+promote)    stateful_promote;;
+demote)     stateful_demote;;
+stop)       stateful_stop;;
+monitor)    stateful_monitor;;
+validate-all)   stateful_validate;;
+usage|help) stateful_usage $OCF_SUCCESS;;
+*)      stateful_usage $OCF_ERR_UNIMPLEMENTED;;
+esac
+
+exit $?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ldirectord&#34;&gt;ldirectord&lt;/h3&gt;
+
+&lt;p&gt;ldirectord需从官网下载安装。&lt;/p&gt;
+
+&lt;p&gt;由于ldirectord没有提供相应agent，我们这里也要增加相应agent。agent脚本可由pacemaker提供的模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Dummy。&lt;/p&gt;
+
+&lt;p&gt;这里为了简单，使用了systemd的agent。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;文件名： ldirectord.service&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Unit]
+Description=ldirectord.service
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/ldirectord.ldirectord.pid
+ExecStart=/sbin/ldirectord restart
+ExecStop=/sbin/ldirectord stop
+ExecReload=/sbin/ldirectord reload
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;inventory&#34;&gt;inventory&lt;/h3&gt;
+
+&lt;p&gt;资产文件设置了三个主机，使用cluster用户进行部署。请根据实际情况进行调整。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;文件名： hosts&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[nodes]
+node1 ip=192.168.122.111 ansible_user=cluster
+node2 ip=192.168.122.112 ansible_user=cluster
+node3 ip=192.168.122.113 ansible_user=cluster
+
+[nodes:vars]
+vip=192.168.122.100
+port=80
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ldirectord-cf-j2&#34;&gt;ldirectord.cf.j2&lt;/h3&gt;
+
+&lt;p&gt;ldirectord配置文件，请根据实际情况进行调整。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;文件名： ldirectord.cf.j2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;checktimeout=3
+checkinterval=10
+autoreload=yes
+quiescent=yes
+
+virtual={{ vip }}:{{ port }}
+{% for host in groups[&#39;nodes&#39;] %}
+    real={{ hostvars[host].ip }}:{{ port }} gate
+{% endfor %}
+    checkport={{ port }}
+    checktype=connect
+    service=simpletcp
+    scheduler=lc
+    protocol=tcp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;playbook&#34;&gt;playbook&lt;/h3&gt;
+
+&lt;p&gt;ansible使用pcs对pacemaker进行配置&lt;/p&gt;
+
+&lt;p&gt;这里密码写死123456。网卡为eth0。vip为192.168.122.100。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;文件名： lvs.yml&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+- hosts: nodes
+  become: yes
+  tasks:
+  - name: Set a password for the hacluster user
+    user: name=hacluster password=$6$rounds=656000$JBKx3dx31baJQ.zA$uBwQqkpLY/0SV7JxEHdKGcXfjQx6NZgvKoiZ/Z13NTFjn96UyTAqEKYjaGhJbY1lnT/F2c6zSITD8gpAEiMIe. update_password=always
+  - name: Enable pcs
+    service: name=pcsd.service state=started enabled=yes
+  - name: Authenticate the hacluster user
+    command: /usr/sbin/pcs cluster auth {{ groups[&#39;nodes&#39;] | join(&#39; &#39;) }} -u hacluster -p 123456
+    run_once: true
+  - name: Generate and synchronize the corosync
+    command: /usr/sbin/pcs cluster setup --name mycluster {{ groups[&#39;nodes&#39;] | join(&#39; &#39;) }}
+    run_once: true
+  - name: Enable corysync
+    service: name=corosync.service state=started enabled=yes
+  - name: Enable pacemaker
+    service: name=pacemaker.service state=started enabled=yes
+  - name: Set property stonith
+    command: /usr/sbin/pcs property set stonith-enabled=false
+    run_once: true
+  - name: Set rosource defaults
+    command: /usr/sbin/pcs resource defaults resource-stickiness=100
+    run_once: true
+
+  - name: Create lvs agent
+    copy: src={{ playbook_dir }}/lvs dest=/usr/lib/ocf/resource.d/heartbeat/lvs mode=755
+  - name: Create lvs resource
+    command: /usr/sbin/pcs resource create lvs ocf:heartbeat:lvs params nic=eth0 vip=192.168.122.100 --master
+    run_once: true
+
+  - name: Create ldirectord.cf
+    template: src={{ playbook_dir }}/ldirectord.cf.j2 dest=/etc/ha.d/ldirectord.cf     
+  - name: Create ldirectord.service
+    copy: src={{ playbook_dir }}/ldirectord.service dest=/etc/systemd/system/ldirectord.service
+  - name: Create ldirectord resource
+    command: /usr/sbin/pcs resource create ldirectord systemd:ldirectord
+    run_once: true
+
+  - name: Create colocation constraint
+    command: /usr/sbin/pcs constraint colocation add ldirectord with master lvs-master
+    run_once: true
+  - name: Create order constraint
+    command: /usr/sbin/pcs constraint order promote lvs-master then ldirectord
+    run_once: true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;部署&#34;&gt;部署&lt;/h1&gt;
+
+&lt;p&gt;ansible的配置这里省略了。部署命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ansible-playbook -i hosts lvs.yml -v
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;验证&#34;&gt;验证&lt;/h1&gt;
+
+&lt;p&gt;在各机器启用验证实例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;nc -l 80 -e /usr/bin/hostname -k
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在其它节点验证：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;curl 192.168.122.100
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h1 id=&#34;遗留问题&#34;&gt;遗留问题&lt;/h1&gt;
 
 &lt;ul&gt;
-&lt;li&gt;real server上tcp通过vip连不出来，只能连接到本机&lt;/li&gt;
-&lt;li&gt;virtial server上tcp通过vip如果刚好调度到本机的话是可以的，如果调度到real server上tcp超时&lt;/li&gt;
+&lt;li&gt;real server上不要连接vip，tcp通过vip连不出来，只能连接到本机。&lt;/li&gt;
+&lt;li&gt;virtial server上不要连接vip，tcp通过vip如果刚好调度到本机可以连通，如果调度到real server上tcp超时。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;该可能跟策略路由有关系&lt;/p&gt;
+&lt;p&gt;以上两点可能跟策略路由有关系，该问题可由应用程序解决。&lt;/p&gt;
 
-&lt;h1 id=&#34;qa&#34;&gt;QA&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;断网卡时vip可能挂不上&lt;strong&gt;（硬伤）&lt;/strong&gt;。corosync能检测到，但pacemaker没有动作。&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h2 id=&#34;为什么不用keepalived&#34;&gt;为什么不用keepalived？&lt;/h2&gt;
+&lt;p&gt;这点是硬伤，还需要进一步调查。&lt;/p&gt;
 
-&lt;p&gt;由于项目中还用其它服务要要进行集群管理，pacemaker更灵活。&lt;/p&gt;
+&lt;h1 id=&#34;q-a&#34;&gt;Q&amp;amp;A&lt;/h1&gt;
 
-&lt;h2 id=&#34;为什么使用ldirectord&#34;&gt;为什么使用ldirectord？&lt;/h2&gt;
+&lt;h3 id=&#34;为什么使用ldirectord&#34;&gt;为什么使用ldirectord？&lt;/h3&gt;
 
 &lt;p&gt;使用ldirectord来更新lvs的高度规则，简化配置管理。&lt;/p&gt;
 
-&lt;h2 id=&#34;为什么使用ansible&#34;&gt;为什么使用ansible?&lt;/h2&gt;
+&lt;h3 id=&#34;为什么不用keepalived&#34;&gt;为什么不用keepalived？&lt;/h3&gt;
 
-&lt;p&gt;为了简化集群部署，使用ansible部署工具实现集群一键部署的目标。&lt;/p&gt;
+&lt;p&gt;如果只使用lvs调度，由于keepalived集成了ldirectord与pacemaker的功能，更简单。&lt;/p&gt;
+
+&lt;p&gt;但由于我们项目中还有其它服务要进行集群管理，使用pacemaker更灵活。&lt;/p&gt;
+
+&lt;h3 id=&#34;为什么使用ansible&#34;&gt;为什么使用ansible?&lt;/h3&gt;
+
+&lt;p&gt;为了简化集群部署，使用ansible部署工具实现集群一键部署的目标，如上只要一条命令就可以部署集群。&lt;/p&gt;
 </description>
     </item>
     
