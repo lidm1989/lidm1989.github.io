@@ -17,9 +17,9 @@
     
     <link href="//fonts.googleapis.com/css?family=Noto+Sans:400,700|Montserrat" rel="stylesheet">
     
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>常用调试工具 - lidm&#39;s blog</title>
     
 <meta name="description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
@@ -370,9 +370,9 @@ var duoshuoQuery = {short_name:"lidongming"};
       </div>
     </footer>
 
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/highlight.js/8.4/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>

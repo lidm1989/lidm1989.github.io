@@ -17,9 +17,9 @@
     
     <link href="//fonts.googleapis.com/css?family=Noto+Sans:400,700|Montserrat" rel="stylesheet">
     
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>记windows通过linux共享上网 - lidm&#39;s blog</title>
     
 <meta name="description" content="背景 女友家用笔记本的无线网卡突然罢工了，尝试有线还是能用的。但是网线连接到路由器不够长。我本人台式机装的是archlinux，一块有线网卡，一块USB无线网卡，平时使用USB无线网卡上网。两电脑距离较近，使用网线完全合适，于是想到能不能让windows通过linux上网。作为一个爱折腾的码农，关键时候怎能不好好表现一下，说干就干。环境  windows7笔记本一台，双网卡, 一块有线网卡（没用），一块无线网卡（已坏） archlinux台式机一台，双网卡，一块有线网卡（没用），一块USB无线网卡（正常上网） 普通网线（双绞线）一根  目的：通过网线连接两块有线网卡，使windows通过linux上网配置步骤  用网线连接两块有线网卡 开启ip转发sysctl net.ipv4.ip_forward=1 开启nat伪装iptables -t nat -A POSTROUTING -j MASQUERADE 配置linux有线网卡静态IP: 192.168.1.2/24 配置windows有线网卡静态IP: 192.168.1.3，MASK: 255.255.255.0, GATEWAY: 192.168.1.2 配置windows的DNS为linux机器上的DNS或者google公共DNS: 8.8.8.8  观察网络 在linux上观察windows ping百度的网络数据，其中192.168.0.114是linux上USB无线网卡的IP地址：[root@arch ~]# tcpdump -i any -nn icmp tcpdump: verbose output suppressed, use -v or -vv for full protocol decode listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes 23:00:03.298518 IP 192.168.1.3 &amp;gt; 115.">
@@ -346,9 +346,9 @@ var duoshuoQuery = {short_name:"lidongming"};
       </div>
     </footer>
 
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/highlight.js/8.4/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>

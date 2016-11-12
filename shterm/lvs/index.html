@@ -17,9 +17,9 @@
     
     <link href="//fonts.googleapis.com/css?family=Noto+Sans:400,700|Montserrat" rel="stylesheet">
     
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>lvs - lidm&#39;s blog</title>
     
 <meta name="description" content="背景 提高业务系统的处理能力及可靠性 集群：方案采用多节点集群 负载均衡：调度器 高可用：HA  方案 pacemaker &#43; lvs &#43; ldirectord由于项目的主要负载是rdp及ssh协议，所以lb采用lvs。同时使用pacemaker保证lvs的可靠性。集群由lvs进行负载均衡高度，使用pacemaker来保证lvs的高可用。 为了节约成本，lvs由pacemaker随机选取集群节点中的一个节点来运行。调度策略采用lvs的dr模式，调度算法采用lc。实施 由于lvs要求real server必须禁止arp响应而virtual server必须支持arp响应，所以pacemaker定义资源运行在Master/Slave模式并与ldirectord绑定关系。lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置vip，响应arp，并启用转发；slave节点在网卡lo上配置vip，不响应arp。响应arp需要通知路由更新arp表，由程序send_arp向路由发送更新消息，该程序由resource-agents的IPaddr中提取，IPaddr位于/usr/lib/ocf/resource.d/heartbeat/IPaddr。以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。文件名：lvs#!/bin/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation.">
@@ -785,9 +785,9 @@ var duoshuoQuery = {short_name:"lidongming"};
       </div>
     </footer>
 
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/highlight.js/8.4/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>
