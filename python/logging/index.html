@@ -27,7 +27,7 @@
 <meta property="og:title" content="logging - lidm&#39;s blog">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lidm1989.github.io/python/logging/">
-<meta property="og:image" content="https://lidm1989.github.io/images/python/python.jpg">
+<meta property="og:image" content="https://lidm1989.github.io/images/python/logging_flow.png">
 <meta property="og:site_name" content="lidm&#39;s blog">
 <meta property="og:description" content="一个简单的例子 import logging logging.warning(&#39;Watch out!&#39;) # 输出到控制台 logging.info(&#39;I told you so&#39;) # 什么都不输出  输出:WARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。try: 1/0 except: logging.exception(&#39;Excepion:&#39;)  输出:ERROR:root:Excepion: Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 2, in &amp;lt;module&amp;gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=&#39;example.log&#39;,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件: Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-&amp;gt;handlers-&amp;gt;filters-&amp;gt;formatters。">
 <meta property="og:locale" content="ja_JP">
@@ -37,7 +37,7 @@
 <meta name="twitter:url" content="https://lidm1989.github.io/python/logging/">
 <meta name="twitter:title" content="logging - lidm&#39;s blog">
 <meta name="twitter:description" content="一个简单的例子 import logging logging.warning(&#39;Watch out!&#39;) # 输出到控制台 logging.info(&#39;I told you so&#39;) # 什么都不输出  输出:WARNING:root:Watch out!  logging默认输出到控制台，默认输出级别为WARNING，所以INFO级别没有输出。异常处理 logging为异常专门提供了logger.exception()接口以便输出异常，该接口只应该在异常处理时使用。try: 1/0 except: logging.exception(&#39;Excepion:&#39;)  输出:ERROR:root:Excepion: Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 2, in &amp;lt;module&amp;gt; ZeroDivisionError: integer division or modulo by zero  配置日志 logging.basicConfig(filename=&#39;example.log&#39;,level=logging.DEBUG)  basicConfig应该在记录日志之前被调用，可以被调用多次，但只有第一次调用会生效。高级话题 logging模块提供了loggers, handlers, filters, and formatters更加现代的组件: Loggers: 暴露接口以便应用程序直接调用 Handlers: 将日志发送到相应目的地 Filters: 对日志进行过滤 Formatters: 指定日志的输出格式  日志的传输方向为: looggers-&amp;gt;handlers-&amp;gt;filters-&amp;gt;formatters。">
-<meta name="twitter:image" content="https://lidm1989.github.io/images/python/python.jpg">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/python/logging_flow.png">
 
 
 <script type="application/ld+json">
@@ -51,7 +51,7 @@
     "headline": "logging - lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
-      "url": "https:\/\/lidm1989.github.io\/images\/python\/python.jpg",
+      "url": "https:\/\/lidm1989.github.io\/images\/python\/logging_flow.png",
       "height": 800,
       "width": 800
     },
@@ -114,7 +114,7 @@
 
     <article class="single">
 
-  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/logging_flow.png);"></a>
   <div class="content-inner">
     <h1 class="title">logging</h1>
 
@@ -326,7 +326,7 @@ var duoshuoQuery = {short_name:"lidongming"};
         <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/logging_flow.png);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/python/logging/">logging</a></div>
 
@@ -374,10 +374,6 @@ var duoshuoQuery = {short_name:"lidongming"};
     <footer class="l-footer">
       <div class="container">
         <p><span class="h-logo">&copy; lidm&#39;s blog</span></p>
-        <aside>
-          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
-          <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
-        </aside>
       </div>
     </footer>
 
