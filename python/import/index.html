@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="https://lidm1989.github.io/images/logo.png">
 
 
-<link rel="canonical" href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
+<link rel="canonical" href="https://lidm1989.github.io/python/import/">
 
 
     
@@ -20,24 +20,24 @@
     <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>常用调试工具 - lidm&#39;s blog</title>
+    <title>import - lidm&#39;s blog</title>
     
-<meta name="description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
+<meta name="description" content="module 模块是一个文件。文件名=模块名&#43;文件后缀，后缀有.py、.pyc、.pyo、.so等。模块中可以使用__name__获取模块名。模块搜索路径 当模块被导入时，解释器首先搜索built-in模块，如果未找到，再搜索sys.path列表。示例1 # file: demo.py import sys foo = 1 _bar = 1  通过import导入 &amp;gt;&amp;gt;&amp;gt; import demo &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;demo&#39;] &amp;gt;&amp;gt;&amp;gt; dir(demo) [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import&amp;hellip;导入 &amp;gt;&amp;gt;&amp;gt; from demo import foo &amp;gt;&amp;gt;&amp;gt; from demo import _bar &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import * 导入 &amp;gt;&amp;gt;&amp;gt; from demo import * &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  package 包是一个目录。包目录下为首的一个文件便是__init__.">
 
-<meta property="og:title" content="常用调试工具 - lidm&#39;s blog">
+<meta property="og:title" content="import - lidm&#39;s blog">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
-<meta property="og:image" content="https://lidm1989.github.io/images/linux/debug.jpg">
+<meta property="og:url" content="https://lidm1989.github.io/python/import/">
+<meta property="og:image" content="https://lidm1989.github.io/images/python/python.jpg">
 <meta property="og:site_name" content="lidm&#39;s blog">
-<meta property="og:description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
+<meta property="og:description" content="module 模块是一个文件。文件名=模块名&#43;文件后缀，后缀有.py、.pyc、.pyo、.so等。模块中可以使用__name__获取模块名。模块搜索路径 当模块被导入时，解释器首先搜索built-in模块，如果未找到，再搜索sys.path列表。示例1 # file: demo.py import sys foo = 1 _bar = 1  通过import导入 &amp;gt;&amp;gt;&amp;gt; import demo &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;demo&#39;] &amp;gt;&amp;gt;&amp;gt; dir(demo) [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import&amp;hellip;导入 &amp;gt;&amp;gt;&amp;gt; from demo import foo &amp;gt;&amp;gt;&amp;gt; from demo import _bar &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import * 导入 &amp;gt;&amp;gt;&amp;gt; from demo import * &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  package 包是一个目录。包目录下为首的一个文件便是__init__.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="lidm&#39;s blog">
-<meta name="twitter:url" content="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
-<meta name="twitter:title" content="常用调试工具 - lidm&#39;s blog">
-<meta name="twitter:description" content="linux下常用调试工具fuser fuser使用文件或者套节字来识别进程示例 fuser &amp;lt;filename&amp;gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件示例 lsof lsof -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -c &amp;lt;cmd&amp;gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息示例 gstack &amp;lt;pid&amp;gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。示例 strace cat /dev/null strace -p 1234  常用选项 -p &amp;lt;pid&amp;gt; # 指定特定进程 -o &amp;lt;filename&amp;gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包">
-<meta name="twitter:image" content="https://lidm1989.github.io/images/linux/debug.jpg">
+<meta name="twitter:url" content="https://lidm1989.github.io/python/import/">
+<meta name="twitter:title" content="import - lidm&#39;s blog">
+<meta name="twitter:description" content="module 模块是一个文件。文件名=模块名&#43;文件后缀，后缀有.py、.pyc、.pyo、.so等。模块中可以使用__name__获取模块名。模块搜索路径 当模块被导入时，解释器首先搜索built-in模块，如果未找到，再搜索sys.path列表。示例1 # file: demo.py import sys foo = 1 _bar = 1  通过import导入 &amp;gt;&amp;gt;&amp;gt; import demo &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;demo&#39;] &amp;gt;&amp;gt;&amp;gt; dir(demo) [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import&amp;hellip;导入 &amp;gt;&amp;gt;&amp;gt; from demo import foo &amp;gt;&amp;gt;&amp;gt; from demo import _bar &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_bar&#39;, &#39;foo&#39;] &amp;gt;&amp;gt;&amp;gt;  通过from&amp;hellip;import * 导入 &amp;gt;&amp;gt;&amp;gt; from demo import * &amp;gt;&amp;gt;&amp;gt; dir() [&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;foo&#39;, &#39;sys&#39;] &amp;gt;&amp;gt;&amp;gt;  package 包是一个目录。包目录下为首的一个文件便是__init__.">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/python/python.jpg">
 
 
 <script type="application/ld+json">
@@ -48,15 +48,15 @@
       "@type": "WebPage",
       "@id":"https:\/\/lidm1989.github.io\/"
     },
-    "headline": "常用调试工具 - lidm\x27s blog",
+    "headline": "import - lidm\x27s blog",
     "image": {
       "@type": "ImageObject",
-      "url": "https:\/\/lidm1989.github.io\/images\/linux\/debug.jpg",
+      "url": "https:\/\/lidm1989.github.io\/images\/python\/python.jpg",
       "height": 800,
       "width": 800
     },
-    "datePublished": "2016-10-24T21:14:38JST",
-    "dateModified": "2016-10-24T21:14:38JST",
+    "datePublished": "2016-11-25T17:11:17JST",
+    "dateModified": "2016-11-25T17:11:17JST",
     "author": {
       "@type": "Person",
       "name": "lidm\x27s blog"
@@ -71,7 +71,7 @@
         "height": 60
       }
     },
-    "description": "linux下常用调试工具\nfuser fuser使用文件或者套节字来识别进程\n示例 fuser \x26lt;filename\x26gt;  常用选项 -n # 指定namespace(file, tcp, udp) -m # 指定挂载点  lsof lsof（list open files）列出当前系统打开文件\n示例 lsof lsof -p 1234  常用选项 -p \x26lt;pid\x26gt; # 指定特定进程 -c \x26lt;cmd\x26gt; # 指定命令 -n # 不解析主机名 -P # 不解析端口号  gstack gstack打印的堆栈信息\n示例 gstack \x26lt;pid\x26gt;  strace strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。\n示例 strace cat \/dev\/null strace -p 1234  常用选项 -p \x26lt;pid\x26gt; # 指定特定进程 -o \x26lt;filename\x26gt; # 输出到文件 -f # 踪子进程 -ff # 跟-o连用，每个进程输出到各自文件  tcpdump tcpdump抓包"
+    "description": "module 模块是一个文件。文件名=模块名\x2b文件后缀，后缀有.py、.pyc、.pyo、.so等。模块中可以使用__name__获取模块名。\n模块搜索路径 当模块被导入时，解释器首先搜索built-in模块，如果未找到，再搜索sys.path列表。\n示例1 # file: demo.py import sys foo = 1 _bar = 1  通过import导入 \x26gt;\x26gt;\x26gt; import demo \x26gt;\x26gt;\x26gt; dir() [\x27__builtins__\x27, \x27__doc__\x27, \x27__name__\x27, \x27__package__\x27, \x27demo\x27] \x26gt;\x26gt;\x26gt; dir(demo) [\x27__builtins__\x27, \x27__doc__\x27, \x27__file__\x27, \x27__name__\x27, \x27__package__\x27, \x27_bar\x27, \x27foo\x27, \x27sys\x27] \x26gt;\x26gt;\x26gt;  通过from\x26hellip;import\x26hellip;导入 \x26gt;\x26gt;\x26gt; from demo import foo \x26gt;\x26gt;\x26gt; from demo import _bar \x26gt;\x26gt;\x26gt; dir() [\x27__builtins__\x27, \x27__doc__\x27, \x27__name__\x27, \x27__package__\x27, \x27_bar\x27, \x27foo\x27] \x26gt;\x26gt;\x26gt;  通过from\x26hellip;import * 导入 \x26gt;\x26gt;\x26gt; from demo import * \x26gt;\x26gt;\x26gt; dir() [\x27__builtins__\x27, \x27__doc__\x27, \x27__name__\x27, \x27__package__\x27, \x27foo\x27, \x27sys\x27] \x26gt;\x26gt;\x26gt;  package 包是一个目录。包目录下为首的一个文件便是__init__."
   }
 </script>
 
@@ -106,103 +106,162 @@
       <ol>
         <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
         
-        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/linux/" itemprop="url"><span itemprop="title">linux</span></a></li>
+        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/python/" itemprop="url"><span itemprop="title">python</span></a></li>
         
-        <li class="active">常用调试工具</li>
+        <li class="active">import</li>
       </ol>
     </nav>
 
     <article class="single">
 
-  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
+  <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <div class="content-inner">
-    <h1 class="title">常用调试工具</h1>
+    <h1 class="title">import</h1>
 
     <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-24T21:14:38JST">Oct 24, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-11-25T17:11:17JST">Nov 25, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
       
     </ul>
 
     <div class="article-body">
 
-<p>linux下常用调试工具</p>
+<h1 id="module">module</h1>
 
-<h1 id="fuser">fuser</h1>
+<p>模块是一个文件。文件名=模块名+文件后缀，后缀有<code>.py</code>、<code>.pyc</code>、<code>.pyo</code>、<code>.so</code>等。模块中可以使用<code>__name__</code>获取模块名。</p>
 
-<p>fuser使用文件或者套节字来识别进程</p>
+<h1 id="模块搜索路径">模块搜索路径</h1>
 
-<h3 id="示例">示例</h3>
+<p>当模块被导入时，解释器首先搜索<code>built-in</code>模块，如果未找到，再搜索<code>sys.path</code>列表。</p>
 
-<pre><code>fuser &lt;filename&gt;
+<h1 id="示例1">示例1</h1>
+
+<pre><code># file: demo.py
+
+import sys
+
+foo = 1
+_bar = 1
 </code></pre>
 
-<h3 id="常用选项">常用选项</h3>
+<h3 id="通过import导入">通过import导入</h3>
 
-<pre><code>-n        # 指定namespace(file, tcp, udp)
--m        # 指定挂载点
+<pre><code>&gt;&gt;&gt; import demo
+&gt;&gt;&gt; dir()
+['__builtins__', '__doc__', '__name__', '__package__', 'demo']
+&gt;&gt;&gt; dir(demo)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', '_bar', 'foo', 'sys']
+&gt;&gt;&gt; 
 </code></pre>
 
-<h1 id="lsof">lsof</h1>
+<h3 id="通过from-import-导入">通过from&hellip;import&hellip;导入</h3>
 
-<p>lsof（list open files）列出当前系统打开文件</p>
-
-<h3 id="示例-1">示例</h3>
-
-<pre><code>lsof
-lsof -p 1234
+<pre><code>&gt;&gt;&gt; from demo import foo
+&gt;&gt;&gt; from demo import _bar
+&gt;&gt;&gt; dir()
+['__builtins__', '__doc__', '__name__', '__package__', '_bar', 'foo']
+&gt;&gt;&gt; 
 </code></pre>
 
-<h3 id="常用选项-1">常用选项</h3>
+<h3 id="通过from-import-导入-1">通过from&hellip;import * 导入</h3>
 
-<pre><code>-p &lt;pid&gt;  # 指定特定进程
--c &lt;cmd&gt;  # 指定命令
--n        # 不解析主机名
--P        # 不解析端口号
+<pre><code>&gt;&gt;&gt; from demo import *
+&gt;&gt;&gt; dir()
+['__builtins__', '__doc__', '__name__', '__package__', 'foo', 'sys']
+&gt;&gt;&gt; 
 </code></pre>
 
-<h1 id="gstack">gstack</h1>
+<h1 id="package">package</h1>
 
-<p>gstack打印的堆栈信息</p>
+<p>包是一个目录。包目录下为首的一个文件便是<code>__init__.py</code>，然后是一些模块文件和子目录，假如子目录中也有<code>__init__.py</code>那么它就是这个包的子包了。</p>
 
-<h3 id="示例-2">示例</h3>
+<h1 id="示例2">示例2</h1>
 
-<pre><code>gstack &lt;pid&gt;
+<pre><code>sound/                          Top-level package
+      __init__.py               Initialize the sound package
+      formats/                  Subpackage for file format conversions
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      effects/                  Subpackage for sound effects
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      filters/                  Subpackage for filters
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+              ...
 </code></pre>
 
-<h1 id="strace">strace</h1>
+<h3 id="通过import导入-1">通过import导入</h3>
 
-<p>strace常用来跟踪进程执行时的系统调用和所接收的信号。 在Linux世界，进程不能直接访问硬件设备，当进程需要访问硬件设备(比如读取磁盘文件，接收网络数据等等)时，必须由用户态模式切换至内核态模式，通过系统调用访问硬件设备。strace可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。</p>
-
-<h3 id="示例-3">示例</h3>
-
-<pre><code>strace cat /dev/null
-strace -p 1234
+<pre><code>import sound.effects.echo
+sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)
 </code></pre>
 
-<h3 id="常用选项-2">常用选项</h3>
+<h3 id="通过from-import-导入-2">通过from&hellip;import&hellip;导入</h3>
 
-<pre><code>-p &lt;pid&gt;       # 指定特定进程
--o &lt;filename&gt;  # 输出到文件
--f             # 踪子进程
--ff            # 跟-o连用，每个进程输出到各自文件
+<pre><code>from sound.effects import echo
+echo.echofilter(input, output, delay=0.7, atten=4)
 </code></pre>
 
-<h1 id="tcpdump">tcpdump</h1>
+<p>or</p>
 
-<p>tcpdump抓包</p>
-
-<h3 id="示例-4">示例</h3>
-
-<pre><code>tcpdump -i eth0 src 192.168.1.1 and tcp port 22
+<pre><code>from sound.effects.echo import echofilter
+echofilter(input, output, delay=0.7, atten=4)
 </code></pre>
 
-<h3 id="常用选项-3">常用选项</h3>
+<h3 id="通过from-import-导入-3">通过from&hellip;import * 导入</h3>
 
-<pre><code>-i &lt;interface&gt;  # 指定网卡
--w &lt;filename&gt;   # 输出到文件
--nn             # 不进行地址解析
+<p>包作者可以通过在包的<code>__init__.py</code>里定义<code>__all__</code>变量来显式指定可以导出的名字</p>
+
+<pre><code># file: __init__.py
+
+__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]
 </code></pre>
+
+<p>如果没有定义<code>__all__</code>，将会导入所有子模块和<code>__init__.py</code>中定义的名字</p>
+
+<h1 id="包内相互导入">包内相互导入</h1>
+
+<h2 id="subpackages内">subpackages内</h2>
+
+<p>可以直接导入，也就是说import语句先搜索当前包，再搜索<code>sys.path</code>列表。如surround模块可以如下导入：</p>
+
+<pre><code>import echo
+</code></pre>
+
+<p>or</p>
+
+<pre><code>from echo import echofilter
+</code></pre>
+
+<h2 id="subpackages间">subpackages间</h2>
+
+<p>如sound.filter.vocoder导入sound.effects.echo</p>
+
+<h3 id="绝对导入">绝对导入</h3>
+
+<pre><code>from sound.effects import echo
+</code></pre>
+
+<h3 id="相对导入">相对导入</h3>
+
+<pre><code>from ..effects import echo
+</code></pre>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://docs.python.org/2/tutorial/modules.html">Python2官网</a></p>
 </div>
   </div>
 
@@ -210,7 +269,7 @@ strace -p 1234
     <div class="content-inner">
 
       
-<div class="ds-thread" data-thread-key="/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" data-title="常用调试工具" data-url="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/"></div>
+<div class="ds-thread" data-thread-key="/python/import/" data-title="import" data-url="https://lidm1989.github.io/python/import/"></div>
 
 
 <script type="text/javascript">
@@ -226,7 +285,7 @@ var duoshuoQuery = {short_name:"lidongming"};
 </script>
 
 
-<div class="ds-share" data-thread-key="/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" data-title="常用调试工具" data-images="" data-content="常用调试工具" data-url="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">
+<div class="ds-share" data-thread-key="/python/import/" data-title="import" data-images="" data-content="import" data-url="https://lidm1989.github.io/python/import/">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	

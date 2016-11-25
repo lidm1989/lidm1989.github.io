@@ -53,6 +53,25 @@
     <div class="row">
       
       <div class="col-sm-6 col-xs-12"><article class="li">
+  <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
+  <div class="content-inner thin">
+    <h2 class="title"><a href="https://lidm1989.github.io/python/import/">import</a></h2>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-11-25T17:11:17JST">Nov 25, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
+      
+    </ul>
+
+    <div class="summary">module 模块是一个文件。文件名=模块名+文件后缀，后缀有.py、.pyc、.pyo、.so等。模块中可以使用__name__获取模块名。
+模块搜索路径 当模块被导入时，解释器首先搜索built-in模块，如果未找到，再搜索sys.path列表。
+示例1 # file: demo.py import sys foo = 1 _bar = 1  通过import导入 &gt;&gt;&gt; import demo &gt;&gt;&gt; dir() ['__builtins__', '__doc__', '__name__', '__package__', 'demo'] &gt;&gt;&gt; dir(demo) ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '_bar', 'foo', 'sys'] &gt;&gt;&gt;  通过from&hellip;import&hellip;导入 &gt;&gt;&gt; from demo import foo &gt;&gt;&gt; from demo import _bar &gt;&gt;&gt; dir() ['__builtins__', '__doc__', '__name__', '__package__', '_bar', 'foo'] &gt;&gt;&gt;  通过from&hellip;import * 导入 &gt;&gt;&gt; from demo import * &gt;&gt;&gt; dir() ['__builtins__', '__doc__', '__name__', '__package__', 'foo', 'sys'] &gt;&gt;&gt;  package 包是一个目录。包目录下为首的一个文件便是__init__.</div>
+  </div>
+</article>
+</div>
+      
+      
+      <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
   <div class="content-inner thin">
     <h2 class="title"><a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/">记windows通过linux共享上网</a></h2>
@@ -70,7 +89,7 @@
   </div>
 </article>
 </div>
-      
+      <div class="col-sm-12"></div>
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
@@ -92,7 +111,7 @@ fuser fuser使用文件或者套节字来识别进程
   </div>
 </article>
 </div>
-      <div class="col-sm-12"></div>
+      
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
@@ -115,27 +134,6 @@ lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置v
 以下agent脚本由pacemaker提供的Stateful模板改编而来，模版默认位于/usr/lib/ocf/resource.d/pacemaker/Stateful。
 文件名：lvs
 #!/bin/sh # # # Example of a stateful OCF Resource Agent. # # Copyright (c) 2006 Andrew Beekhof # # This program is free software; you can redistribute it and/or modify # it under the terms of version 2 of the GNU General Public License as # published by the Free Software Foundation.</div>
-  </div>
-</article>
-</div>
-      
-      
-      <div class="col-sm-6 col-xs-12"><article class="li">
-  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
-  <div class="content-inner thin">
-    <h2 class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></h2>
-
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
-      
-    </ul>
-
-    <div class="summary"> 00: 准备工作 Python源码目录  Include：该目录包含了Python提供的所有头文件，如果用户需要自己用C或C++来编写自定义模块扩展Python，那么就需要乃至这里提供的头文件。 Lib：该目录包含了Python自带的所有标准库，Lib中的库都是用Python语言编写的。 Modules: 该目录中包含了所有用C语言编写的模块，比如random, cStringIO等。Modules中的模块是那些对速度要求非常严格的模块，而有一些雄起速度没有太严格要求的模块，比如os，就是用Python编写，并且放在Lib目录下的。 Parser: 该目录中包含了Python解释器中的Scanner和Parser部分，即对Python源代码进行词法分析和语法分析的部分。除了之些，Parser目录下还包含了一些有用的工具，这些工具能够根据Python语言的语法自动生成Python语言的词法和语法分析器，与YACC非常类似。 Objects：该目录中包含了所有Python的内建对象，包括整数、list、dict等。同时，该目录还包括了Python在运行时需要的所有的内部使用对象的实现。 Python：该目录下包含了Python解释器中的Compiler和执行引擎部分，是Python运行的核心所在。
-编译源码 ./configure
- make
- make install
-  01: Python对象初探 PyObject_HEAD #define PyObject_HEAD \ Py_ssize_t ob_refcnt; \ struct _typeobject *ob_type;  PyObject typedef struct _object { PyObject_HEAD } PyObject;  PyObject_VAR_HEAD #define PyObject_VAR_HEAD \ PyObject_HEAD \ Py_ssize_t ob_size; /* Number of items in variable part */  PyVarObject typedef struct { PyObject_VAR_HEAD } PyVarObject;  </div>
   </div>
 </article>
 </div>
@@ -178,6 +176,20 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
       <div class="row">
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/python/import/">import</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-11-25T17:11:17JST">Nov 25, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/">记windows通过linux共享上网</a></div>
@@ -189,7 +201,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        
+        <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
@@ -203,7 +215,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        <div class="col-sm-12"></div>
+        
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
@@ -213,20 +225,6 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
     <ul class="p-facts">
       <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-16T17:16:41JST">Oct 16, 2016</time></li>
       <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/shterm/">shterm</a></li>
-    </ul>
-  </header>
-</article>
-</div>
-        
-        
-        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
-  <a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
-  <header>
-    <div class="title"><a href="https://lidm1989.github.io/python/Python%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">Python源码剖析阅读笔记</a></div>
-
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
     </ul>
   </header>
 </article>
