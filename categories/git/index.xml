@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lidm&#39;s blog</title>
+    <link>https://lidm1989.github.io/categories/git/index.xml</link>
+    <description>Recent content on lidm&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <atom:link href="https://lidm1989.github.io/categories/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>reset-checkout-revert</title>
+      <link>https://lidm1989.github.io/git/reset-checkout-revert/</link>
+      <pubDate>Tue, 10 Jan 2017 17:28:53 +0800</pubDate>
+      
+      <guid>https://lidm1989.github.io/git/reset-checkout-revert/</guid>
+      <description>
+
+&lt;h1 id=&#34;reset-checkout-and-revert&#34;&gt;Reset, Checkout and Revert&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;、&lt;code&gt;git checkout&lt;/code&gt;和&lt;code&gt;git revert&lt;/code&gt;是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，&lt;code&gt;git reset&lt;/code&gt;和&lt;code&gt;git checkout&lt;/code&gt;可作用于commits或files，revert只能作用于commits。&lt;/p&gt;
+
+&lt;p&gt;由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/01.svg&#34; alt=&#34;reset-checkout-revert images/git/01.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。&lt;/p&gt;
+
+&lt;h1 id=&#34;commit级操作&#34;&gt;Commit级操作&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;和&lt;code&gt;git checkout&lt;/code&gt;根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，&lt;code&gt;git revert&lt;/code&gt;不作用于files。&lt;/p&gt;
+
+&lt;h3 id=&#34;reset&#34;&gt;Reset&lt;/h3&gt;
+
+&lt;p&gt;当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout hotfix
+git reset HEAD~2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/02.svg&#34; alt=&#34;reset-checkout-revert images/git/02.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。&lt;/p&gt;
+
+&lt;p&gt;除了在当前分支来回移动，通过命令行选项&lt;code&gt;git reset&lt;/code&gt;也可用来改动暂存区和工作目录：
+* &amp;ndash;soft  &amp;ndash; 不改动暂存区和工作目录
+* &amp;ndash;mixed &amp;ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。
+* &amp;ndash;hard  &amp;ndash; 更新暂存区和工作目录到特定commit&lt;/p&gt;
+
+&lt;p&gt;请看下面图示：&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/03.svg&#34; alt=&#34;reset-checkout-revert images/git/03.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;这些选项常被用于HEAD commit。例如，&lt;code&gt;git reset --mixed HEAD&lt;/code&gt;将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用&lt;code&gt;git reset --hard HEAD&lt;/code&gt;。这两个场景也是最常用的。&lt;/p&gt;
+
+&lt;p&gt;当&lt;code&gt;git reset&lt;/code&gt;作用于非HEAD commit时一定要格外小心，因为它变更了commit history。&lt;/p&gt;
+
+&lt;h3 id=&#34;checkout&#34;&gt;Checkout&lt;/h3&gt;
+
+&lt;p&gt;现在你应该很熟悉&lt;code&gt;git commit&lt;/code&gt;作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout hotfix
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。&lt;code&gt;git reset&lt;/code&gt;与&lt;code&gt;git checkout&lt;/code&gt;不切换分支。&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/04.svg&#34; alt=&#34;reset-checkout-revert images/git/04.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;如果作用于commits，&lt;code&gt;git checkout&lt;/code&gt;可以指向任意的commit。这和切换分支类似：将HEAD指向特定的commit。例如：下面的命令将HEAD指向当前commit的祖父commit。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout HEAD~2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/05.svg&#34; alt=&#34;reset-checkout-revert images/git/05.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;当查看工程的历史版本时非常有用。然而，由于没有分支引用当前HEAD，这使你处于detached HEAD state。如果你添加了一些新的commits那就非常危险了，国为当你切换到其它分支后，再没有办法回到刚在的位置了。基于这个原因，你应该在提交commits到detached HEAD这前创建一个新的分支。&lt;/p&gt;
+
+&lt;h3 id=&#34;revert&#34;&gt;Revert&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git revert&lt;/code&gt;通过添加一个新的commit来undo commits。由于这不改变commit history，所以这是undo变更的安全方法。例如，下面的命令将计算出倒数第三次commit，创建一个新的commit来undo那次的改变。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout hotfix
+git revert HEAD~2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;请看下面图示：&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/06.svg&#34; alt=&#34;reset-checkout-revert images/git/06.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;与&lt;code&gt;git reset&lt;/code&gt;相比，&lt;code&gt;git reset&lt;/code&gt;会改写已存在的commit history。由于这个原因，&lt;code&gt;git revert&lt;/code&gt;应该在公共分支上来进行undo，&lt;code&gt;git reset&lt;/code&gt;应该在私有分支上进行undo。&lt;/p&gt;
+
+&lt;p&gt;你也可以认为&lt;code&gt;git revert&lt;/code&gt;用来undo已提交的变更，而&lt;code&gt;git reset&lt;/code&gt;用来undo未提交的变更。&lt;/p&gt;
+
+&lt;p&gt;像&lt;code&gt;git checkout&lt;/code&gt;一样，&lt;code&gt;git revert&lt;/code&gt;有可能会覆盖工作目录中的文件，因此它将会询问你是否commit或stash在本次操作中可能会丢失的变更。&lt;/p&gt;
+
+&lt;h1 id=&#34;file级操作&#34;&gt;File级操作&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;和&lt;code&gt;git checkout&lt;/code&gt;可以接收可选的文件路径作为参数。这戏剧性的改变了它们的行为，使它们不再作用于整个commit，而是强制它们的作用于单个文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;reset-1&#34;&gt;Reset&lt;/h3&gt;
+
+&lt;p&gt;当使用文件路径作为&lt;code&gt;git reset&lt;/code&gt;的参数时，&lt;code&gt;git rest&lt;/code&gt;更新暂存区到特定的commit。例如，下面的命令将获取foo.py的祖父版本并将其更新到暂存区以备下次提交。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git reset HEAD~2 foo.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;和&lt;code&gt;git reset&lt;/code&gt;的Commit级操作一样，&lt;code&gt;git reset&lt;/code&gt;通常和HEAD一起使用。&lt;code&gt;git reset HEAD foo.py&lt;/code&gt;将unstage foo.py。&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/07.svg&#34; alt=&#34;reset-checkout-revert images/git/07.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;code&gt;--soft&lt;/code&gt;、&lt;code&gt;--mixed&lt;/code&gt;和&lt;code&gt;--hard&lt;/code&gt;选项对File级的&lt;code&gt;git reset&lt;/code&gt;不起作用，也就是说，&lt;code&gt;git reset&lt;/code&gt;只更新暂存区，而从不更新工作目录。&lt;/p&gt;
+
+&lt;h3 id=&#34;checkout-1&#34;&gt;Checkout&lt;/h3&gt;
+
+&lt;p&gt;当使用文件路径作为&lt;code&gt;git checkout&lt;/code&gt;的参数时，&lt;code&gt;git checkout&lt;/code&gt;只更新工作目录。和该命令Commit级操作不同的是，&lt;code&gt;git checkout&lt;/code&gt;不会改变HEAD的指向，这意味着它不会切换当前分支。&lt;/p&gt;
+
+&lt;figure&gt;
+  &lt;img src=&#34;https://lidm1989.github.io/images/git/08.svg&#34; alt=&#34;reset-checkout-revert images/git/08.svg&#34;&gt;
+  
+&lt;/figure&gt;
+
+
+&lt;p&gt;例如：下面的命令更新工作目录的foo.py为它的祖父版本。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout HEAD~2 foo.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;和&lt;code&gt;git checkout&lt;/code&gt;的Commit级操作一样，&lt;code&gt;git checkout&lt;/code&gt;可以用来查看工程的历史版本，只不过只能查看特定的文件了。&lt;/p&gt;
+
+&lt;p&gt;当你暂存并且提交检出的文件时，&lt;code&gt;git checkout&lt;/code&gt;的效果和&lt;code&gt;git revert&lt;/code&gt;非常相似。但是&lt;code&gt;git checkout&lt;/code&gt;撤销了检出版本之后的所有变更，而&lt;code&gt;git revert&lt;/code&gt;只撤销了特定版本的变更。&lt;/p&gt;
+
+&lt;p&gt;和&lt;code&gt;git reset&lt;/code&gt;一样，&lt;code&gt;git checkout&lt;/code&gt;通常和HEAD一起使用。例如，&lt;code&gt;git checkout HEAD foo.py&lt;/code&gt;丢弃对foo.py所有未提交的改动。这和&lt;code&gt;git reset HEAD --hard&lt;/code&gt;非常相似，但是它只作用于特定的文件。&lt;/p&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;、&lt;code&gt;git checkout&lt;/code&gt;和&lt;code&gt;git revert&lt;/code&gt;很容易混淆，但是当你将它们的作用效果与工作目录、暂存区和提交历史相结合时，就会很容易区分它们各自的使用场景了。&lt;/p&gt;
+
+&lt;p&gt;下面对这些命令最常用的场景进行了总结：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git reset&lt;/code&gt;：&lt;strong&gt;Commit级&lt;/strong&gt;：丢弃对私有分支的提交或丢弃未提交的改动&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git reset&lt;/code&gt;：&lt;strong&gt;File级&lt;/strong&gt;：撤销暂存区中的文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git checkout&lt;/code&gt;：&lt;strong&gt;Commit级&lt;/strong&gt;：切换分支或查看历史版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git checkout&lt;/code&gt;：&lt;strong&gt;File级&lt;/strong&gt;：丢弃对工作目录的改动&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git revert&lt;/code&gt;：&lt;strong&gt;Commit级&lt;/strong&gt;：在公开分支上进行撤消&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git revert&lt;/code&gt;：&lt;strong&gt;File级&lt;/strong&gt;：不适用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;原英文链接&#34;&gt;原英文链接&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting&#34;&gt;resetting-checking-out-and-reverting&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

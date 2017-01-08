@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="theme-color" content="#263238">
+
+<meta name="generator" content="Hugo 0.17" />
+
+<link rel="apple-touch-icon" href="https://lidm1989.github.io/images/logo.png">
+
+
+<link rel="canonical" href="https://lidm1989.github.io/git/reset-checkout-revert/">
+
+
+    
+    <link href="//fonts.googleapis.com/css?family=Noto+Sans:400,700|Montserrat" rel="stylesheet">
+    
+    <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>reset-checkout-revert - lidm&#39;s blog</title>
+    
+<meta name="description" content="Reset, Checkout and Revert git reset、git checkout和git revert是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，git reset和git checkout可作用于commits或files，revert只能作用于commits。由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。  当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。Commit级操作 git reset和git checkout根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，git revert不作用于files。Reset 当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。git checkout hotfix git reset HEAD~2  hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：  git reset的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。除了在当前分支来回移动，通过命令行选项git reset也可用来改动暂存区和工作目录： * &amp;ndash;soft &amp;ndash; 不改动暂存区和工作目录 * &amp;ndash;mixed &amp;ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。 * &amp;ndash;hard &amp;ndash; 更新暂存区和工作目录到特定commit请看下面图示：  这些选项常被用于HEAD commit。例如，git reset --mixed HEAD将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用git reset --hard HEAD。这两个场景也是最常用的。当git reset作用于非HEAD commit时一定要格外小心，因为它变更了commit history。Checkout 现在你应该很熟悉git commit作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。git checkout hotfix  上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。git reset与git checkout不切换分支。">
+
+<meta property="og:title" content="reset-checkout-revert - lidm&#39;s blog">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lidm1989.github.io/git/reset-checkout-revert/">
+<meta property="og:image" content="https://lidm1989.github.io/images/git/hero.svg">
+<meta property="og:site_name" content="lidm&#39;s blog">
+<meta property="og:description" content="Reset, Checkout and Revert git reset、git checkout和git revert是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，git reset和git checkout可作用于commits或files，revert只能作用于commits。由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。  当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。Commit级操作 git reset和git checkout根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，git revert不作用于files。Reset 当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。git checkout hotfix git reset HEAD~2  hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：  git reset的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。除了在当前分支来回移动，通过命令行选项git reset也可用来改动暂存区和工作目录： * &amp;ndash;soft &amp;ndash; 不改动暂存区和工作目录 * &amp;ndash;mixed &amp;ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。 * &amp;ndash;hard &amp;ndash; 更新暂存区和工作目录到特定commit请看下面图示：  这些选项常被用于HEAD commit。例如，git reset --mixed HEAD将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用git reset --hard HEAD。这两个场景也是最常用的。当git reset作用于非HEAD commit时一定要格外小心，因为它变更了commit history。Checkout 现在你应该很熟悉git commit作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。git checkout hotfix  上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。git reset与git checkout不切换分支。">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="lidm&#39;s blog">
+<meta name="twitter:url" content="https://lidm1989.github.io/git/reset-checkout-revert/">
+<meta name="twitter:title" content="reset-checkout-revert - lidm&#39;s blog">
+<meta name="twitter:description" content="Reset, Checkout and Revert git reset、git checkout和git revert是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，git reset和git checkout可作用于commits或files，revert只能作用于commits。由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。  当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。Commit级操作 git reset和git checkout根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，git revert不作用于files。Reset 当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。git checkout hotfix git reset HEAD~2  hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：  git reset的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。除了在当前分支来回移动，通过命令行选项git reset也可用来改动暂存区和工作目录： * &amp;ndash;soft &amp;ndash; 不改动暂存区和工作目录 * &amp;ndash;mixed &amp;ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。 * &amp;ndash;hard &amp;ndash; 更新暂存区和工作目录到特定commit请看下面图示：  这些选项常被用于HEAD commit。例如，git reset --mixed HEAD将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用git reset --hard HEAD。这两个场景也是最常用的。当git reset作用于非HEAD commit时一定要格外小心，因为它变更了commit history。Checkout 现在你应该很熟悉git commit作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。git checkout hotfix  上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。git reset与git checkout不切换分支。">
+<meta name="twitter:image" content="https://lidm1989.github.io/images/git/hero.svg">
+
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id":"https:\/\/lidm1989.github.io\/"
+    },
+    "headline": "reset-checkout-revert - lidm\x27s blog",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https:\/\/lidm1989.github.io\/images\/git\/hero.svg",
+      "height": 800,
+      "width": 800
+    },
+    "datePublished": "2017-01-10T17:28:53JST",
+    "dateModified": "2017-01-10T17:28:53JST",
+    "author": {
+      "@type": "Person",
+      "name": "lidm\x27s blog"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "lidm\x27s blog",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https:\/\/lidm1989.github.io\/images/logo.png",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "description": "Reset, Checkout and Revert git reset、git checkout和git revert是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，git reset和git checkout可作用于commits或files，revert只能作用于commits。\n由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。\n  当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。\nCommit级操作 git reset和git checkout根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，git revert不作用于files。\nReset 当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。\ngit checkout hotfix git reset HEAD~2  hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：\n  git reset的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。\n除了在当前分支来回移动，通过命令行选项git reset也可用来改动暂存区和工作目录： * \x26ndash;soft \x26ndash; 不改动暂存区和工作目录 * \x26ndash;mixed \x26ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。 * \x26ndash;hard \x26ndash; 更新暂存区和工作目录到特定commit\n请看下面图示：\n  这些选项常被用于HEAD commit。例如，git reset --mixed HEAD将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用git reset --hard HEAD。这两个场景也是最常用的。\n当git reset作用于非HEAD commit时一定要格外小心，因为它变更了commit history。\nCheckout 现在你应该很熟悉git commit作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。\ngit checkout hotfix  上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。git reset与git checkout不切换分支。"
+  }
+</script>
+
+
+    <style>
+      html { font-size: 18px;}@media (max-width: 768px) { html { font-size: 15px; }}body { font-family: 'Noto Sans','Hiragino Kaku Gothic Pro',メイリオ,Meiryo,sans-serif; font-size: inherit; font-weight: 300; line-height: 1rem; background-color: #eceff1;}p { margin: 0;}a { color: #4caf50;}a:hover { text-decoration: none; color: #388e3c;}ul,ol { margin: 0; padding: 0;}h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: 700;}h1 { font-size: 1.8rem; line-height: 2rem; margin: 1.5rem 0; }h2 { font-size: 1.4rem; line-height: 2rem; margin: 1.5rem 0; }h3 { font-size: 1.2rem; line-height: 1.5rem; margin: 1.5rem 0; }h4, h5, h6 { font-size: 1rem; line-height: 1.5rem; margin: 1.5rem 0; }main { display: block;}.content-inner { padding: 1rem 2rem;}.content-inner.thin { padding: .5rem 1rem;}@media (max-width: 768px) { .content-inner { padding: 1rem; }}/* Override */.container { position: relative;}/* Parts:layouts */.l-header { background-color: #fff; margin-bottom: 1rem; padding: 1rem 0; text-align: center;}.l-footer { font-size: .8rem; padding: 1.5rem 0;}/* Parts:menu */.p-menu { position: absolute; right: 15px; top: 0;}/* Parts:terms */.p-terms { list-style: none;}.p-terms .terms-title { margin: 0;}.p-terms a { display: inline-block; padding: .25rem 0;}.p-terms.inline li { display: inline-block; font-size: .8rem;}.p-terms.inline li::after { content: ',';}.p-terms.inline li:last-child::after { content: '';}/* Parts:paging */.p-paging { margin-bottom: 1.5rem; text-align: center;}.p-paging a { display: inline-block; padding: 1rem 1.5rem; margin: 0 .5rem; background-color: #cfd8dc; color: #263238;}/* Parts:section */section { margin-bottom: 1.5rem;}section>header { font-size: .8rem; font-weight: 700; margin-bottom: .5rem; text-transform: uppercase;}section>header a { color: #333; text-decoration: underline;}section.article-footer { margin-bottom: 1rem;}section.article-footer>header { margin-bottom: 0;}/* Parts:share */.p-share { min-width: 100%; margin-bottom: 1.5rem;}.p-share .share-inner { display: table; table-layout: fixed; width: 100%; border-spacing: .25rem;}.p-share a { display: table-cell; text-align: center; font-weight: 700; font-size: .7rem; padding: .5rem 0; color: #fff; border-radius: 5px;}.p-share a.ht { background-color: #00a4de; border-bottom: 2px solid #0083b1; }.p-share a.fb { background-color: #3b5998; border-bottom: 2px solid #2f4779; }.p-share a.tw { background-color: #1da1f2; border-bottom: 2px solid #1780c1; }.p-share a.gp { background-color: #dd4b39; border-bottom: 2px solid #b03c2d; }.p-share a.ln { background-color: #00c300; border-bottom: 2px solid #009c00; }.p-share a.ht::before { content: 'Hatena'; }.p-share a.fb::before { content: 'Facebook'; }.p-share a.tw::before { content: 'Twitter'; }.p-share a.gp::before { content: 'Google+'; }.p-share a.ln::before { content: 'LINE'; }/* Parts:logo */.h-logo { font-family: 'Montserrat', sans-serif;}.p-logo { display: inline-block; text-transform: uppercase;}.p-logo a { display: inline-block; font-size: 1.4rem; line-height: 2rem; color: #000;}/* Parts:crumb */.p-crumb ol { list-style: none; margin-bottom: 1rem;}.p-crumb li { display: inline; margin-right: .25rem; font-size: .8rem; color: #607d8b;}.p-crumb li::after { content: '/'; margin-left: .25rem;}.p-crumb li:last-child::after { content: '';}/* Parts:facts */.p-facts { list-style: none; font-size: .8rem; margin-bottom: 1rem;}.p-facts li { display: inline-block; margin-right: .5rem; color: #90a4ae;}.p-facts li i { margin-right: .5rem; color: #cfd8dc;}/* Parts:article */article { background-color: #fff;}article .title { margin: 0; margin-bottom: .5rem; font-weight: 700;}article .title a { color: #000;}article .thumb { display: block; background-image: url(https://lidm1989.github.io/images/default.jpg); background-position: center; background-size: cover;}article .summary { margin-bottom: .5rem; max-height: 5rem; overflow: hidden;}article.single .thumb { height: 18rem; margin-bottom: 1rem;}@media (max-width: 768px) { article.single .thumb { height: 12rem; }}article.li { margin-bottom: 1rem;}article.li .thumb { height: 7.5rem; margin-bottom: .5rem;}article.li.sm { background-color: transparent; margin-bottom: .5rem;}article.li.sm>header { padding: .5rem 0;}article.li.sm .title { font-size: .8rem; line-height: 1rem; margin-bottom: .25rem;}article.li.sm .p-facts { font-size: .6rem; margin-bottom: 0;}article.li.sm .thumb { float: left; margin-right: .5rem; height: 3rem; width: 3rem;}.article-body h2 { padding: 1rem 0; border-bottom: 2px solid #eceff1;}.article-body h2:first-child { margin-top: 0; }.article-body h3 { color: #428bca;}.article-body h4 { border-left: solid .25rem #428bca; padding: 0 .5rem;}.article-body p { margin: 1.5rem 0; line-height: 1.5rem;}.article-body a { text-decoration: underline;}.article-body ul,.article-body ol { padding-left: 1.5rem;}.article-body code { display: inline-block; font-family: Menlo, consolas, monospace; font-size: .8rem; padding: 0 .5rem; line-height: 1.5rem;}.article-body pre { margin: 1.5rem 0; padding: 0; font-size: .8rem; border: none; border-radius: 0;}.article-body pre code { display: block; line-height: 1rem; padding: 1rem;}.article-body blockquote { margin: 1.5rem 0; padding: .5rem 0; font-size: .8rem; border-top: 1px solid #eceff1; border-bottom: 1px solid #eceff1; color: #607d8b;}.article-body blockquote p { margin: .5rem 0; line-height: 1rem;}.article-body strong { box-shadow: 0 -.5rem 0 0 #90caf9 inset;}.article-body em { font-style: normal; font-weight: 700; color: #03a9f4;}.article-body figure { margin: 1.5rem 0; }.article-body figure img { max-width: 100%; }.article-body figure.left,.article-body figure.right { width: 15rem; height: 12rem; margin-top: 0;}.article-body figure.left { float: left; margin-right: 1rem; }.article-body figure.right { float: right; margin-left: 1rem; }@media (max-width: 768px) { .article-body figure.left, .article-body figure.right { float: none; margin: 0; width: auto; height: auto; }}.article-body figcaption { padding: .5rem 0; font-size: .8rem; text-align: center;}.article-body figcaption a { color: #263238;}
+      
+      
+    </style>
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <div class="container">
+        <div class="p-logo">
+          <a href="https://lidm1989.github.io/" class="h-logo">lidm&#39;s blog</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    <nav class="p-crumb">
+      <ol>
+        <li><a href="https://lidm1989.github.io/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+        
+        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://lidm1989.github.io/git/" itemprop="url"><span itemprop="title">git</span></a></li>
+        
+        <li class="active">reset-checkout-revert</li>
+      </ol>
+    </nav>
+
+    <article class="single">
+
+  <a href="https://lidm1989.github.io/git/reset-checkout-revert/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/git/hero.svg);"></a>
+  <div class="content-inner">
+    <h1 class="title">reset-checkout-revert</h1>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-01-10T17:28:53JST">Jan 10, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/git/">git</a></li>
+      
+    </ul>
+
+    <div class="article-body">
+
+<h1 id="reset-checkout-and-revert">Reset, Checkout and Revert</h1>
+
+<p><code>git reset</code>、<code>git checkout</code>和<code>git revert</code>是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，<code>git reset</code>和<code>git checkout</code>可作用于commits或files，revert只能作用于commits。</p>
+
+<p>由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/01.svg" alt="reset-checkout-revert images/git/01.svg">
+  
+</figure>
+
+
+<p>当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。</p>
+
+<h1 id="commit级操作">Commit级操作</h1>
+
+<p><code>git reset</code>和<code>git checkout</code>根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，<code>git revert</code>不作用于files。</p>
+
+<h3 id="reset">Reset</h3>
+
+<p>当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。</p>
+
+<pre><code>git checkout hotfix
+git reset HEAD~2
+</code></pre>
+
+<p>hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/02.svg" alt="reset-checkout-revert images/git/02.svg">
+  
+</figure>
+
+
+<p><code>git reset</code>的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。</p>
+
+<p>除了在当前分支来回移动，通过命令行选项<code>git reset</code>也可用来改动暂存区和工作目录：
+* &ndash;soft  &ndash; 不改动暂存区和工作目录
+* &ndash;mixed &ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。
+* &ndash;hard  &ndash; 更新暂存区和工作目录到特定commit</p>
+
+<p>请看下面图示：</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/03.svg" alt="reset-checkout-revert images/git/03.svg">
+  
+</figure>
+
+
+<p>这些选项常被用于HEAD commit。例如，<code>git reset --mixed HEAD</code>将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用<code>git reset --hard HEAD</code>。这两个场景也是最常用的。</p>
+
+<p>当<code>git reset</code>作用于非HEAD commit时一定要格外小心，因为它变更了commit history。</p>
+
+<h3 id="checkout">Checkout</h3>
+
+<p>现在你应该很熟悉<code>git commit</code>作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。</p>
+
+<pre><code>git checkout hotfix
+</code></pre>
+
+<p>上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。<code>git reset</code>与<code>git checkout</code>不切换分支。</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/04.svg" alt="reset-checkout-revert images/git/04.svg">
+  
+</figure>
+
+
+<p>如果作用于commits，<code>git checkout</code>可以指向任意的commit。这和切换分支类似：将HEAD指向特定的commit。例如：下面的命令将HEAD指向当前commit的祖父commit。</p>
+
+<pre><code>git checkout HEAD~2
+</code></pre>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/05.svg" alt="reset-checkout-revert images/git/05.svg">
+  
+</figure>
+
+
+<p>当查看工程的历史版本时非常有用。然而，由于没有分支引用当前HEAD，这使你处于detached HEAD state。如果你添加了一些新的commits那就非常危险了，国为当你切换到其它分支后，再没有办法回到刚在的位置了。基于这个原因，你应该在提交commits到detached HEAD这前创建一个新的分支。</p>
+
+<h3 id="revert">Revert</h3>
+
+<p><code>git revert</code>通过添加一个新的commit来undo commits。由于这不改变commit history，所以这是undo变更的安全方法。例如，下面的命令将计算出倒数第三次commit，创建一个新的commit来undo那次的改变。</p>
+
+<pre><code>git checkout hotfix
+git revert HEAD~2
+</code></pre>
+
+<p>请看下面图示：</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/06.svg" alt="reset-checkout-revert images/git/06.svg">
+  
+</figure>
+
+
+<p>与<code>git reset</code>相比，<code>git reset</code>会改写已存在的commit history。由于这个原因，<code>git revert</code>应该在公共分支上来进行undo，<code>git reset</code>应该在私有分支上进行undo。</p>
+
+<p>你也可以认为<code>git revert</code>用来undo已提交的变更，而<code>git reset</code>用来undo未提交的变更。</p>
+
+<p>像<code>git checkout</code>一样，<code>git revert</code>有可能会覆盖工作目录中的文件，因此它将会询问你是否commit或stash在本次操作中可能会丢失的变更。</p>
+
+<h1 id="file级操作">File级操作</h1>
+
+<p><code>git reset</code>和<code>git checkout</code>可以接收可选的文件路径作为参数。这戏剧性的改变了它们的行为，使它们不再作用于整个commit，而是强制它们的作用于单个文件。</p>
+
+<h3 id="reset-1">Reset</h3>
+
+<p>当使用文件路径作为<code>git reset</code>的参数时，<code>git rest</code>更新暂存区到特定的commit。例如，下面的命令将获取foo.py的祖父版本并将其更新到暂存区以备下次提交。</p>
+
+<pre><code>git reset HEAD~2 foo.py
+</code></pre>
+
+<p>和<code>git reset</code>的Commit级操作一样，<code>git reset</code>通常和HEAD一起使用。<code>git reset HEAD foo.py</code>将unstage foo.py。</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/07.svg" alt="reset-checkout-revert images/git/07.svg">
+  
+</figure>
+
+
+<p><code>--soft</code>、<code>--mixed</code>和<code>--hard</code>选项对File级的<code>git reset</code>不起作用，也就是说，<code>git reset</code>只更新暂存区，而从不更新工作目录。</p>
+
+<h3 id="checkout-1">Checkout</h3>
+
+<p>当使用文件路径作为<code>git checkout</code>的参数时，<code>git checkout</code>只更新工作目录。和该命令Commit级操作不同的是，<code>git checkout</code>不会改变HEAD的指向，这意味着它不会切换当前分支。</p>
+
+<figure>
+  <img src="https://lidm1989.github.io/images/git/08.svg" alt="reset-checkout-revert images/git/08.svg">
+  
+</figure>
+
+
+<p>例如：下面的命令更新工作目录的foo.py为它的祖父版本。</p>
+
+<pre><code>git checkout HEAD~2 foo.py
+</code></pre>
+
+<p>和<code>git checkout</code>的Commit级操作一样，<code>git checkout</code>可以用来查看工程的历史版本，只不过只能查看特定的文件了。</p>
+
+<p>当你暂存并且提交检出的文件时，<code>git checkout</code>的效果和<code>git revert</code>非常相似。但是<code>git checkout</code>撤销了检出版本之后的所有变更，而<code>git revert</code>只撤销了特定版本的变更。</p>
+
+<p>和<code>git reset</code>一样，<code>git checkout</code>通常和HEAD一起使用。例如，<code>git checkout HEAD foo.py</code>丢弃对foo.py所有未提交的改动。这和<code>git reset HEAD --hard</code>非常相似，但是它只作用于特定的文件。</p>
+
+<h1 id="summary">Summary</h1>
+
+<p><code>git reset</code>、<code>git checkout</code>和<code>git revert</code>很容易混淆，但是当你将它们的作用效果与工作目录、暂存区和提交历史相结合时，就会很容易区分它们各自的使用场景了。</p>
+
+<p>下面对这些命令最常用的场景进行了总结：</p>
+
+<ul>
+<li><code>git reset</code>：<strong>Commit级</strong>：丢弃对私有分支的提交或丢弃未提交的改动</li>
+<li><code>git reset</code>：<strong>File级</strong>：撤销暂存区中的文件</li>
+<li><code>git checkout</code>：<strong>Commit级</strong>：切换分支或查看历史版本</li>
+<li><code>git checkout</code>：<strong>File级</strong>：丢弃对工作目录的改动</li>
+<li><code>git revert</code>：<strong>Commit级</strong>：在公开分支上进行撤消</li>
+<li><code>git revert</code>：<strong>File级</strong>：不适用</li>
+</ul>
+
+<h1 id="原英文链接">原英文链接</h1>
+
+<p><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting">resetting-checking-out-and-reverting</a></p>
+</div>
+  </div>
+
+  <footer class="article-footer">
+    <div class="content-inner">
+
+      
+<div class="ds-thread" data-thread-key="/git/reset-checkout-revert/" data-title="reset-checkout-revert" data-url="https://lidm1989.github.io/git/reset-checkout-revert/"></div>
+
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lidongming"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+
+
+<div class="ds-share" data-thread-key="/git/reset-checkout-revert/" data-title="reset-checkout-revert" data-images="" data-content="reset-checkout-revert" data-url="https://lidm1989.github.io/git/reset-checkout-revert/">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      	
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+</div>
+
+
+    </div>
+  </footer>
+
+</article>
+
+
+    
+  </div>
+
+  <div class="col-md-4">
+    <aside class="site">
+
+  <section>
+    <header>latests</header>
+    <div>
+      <div class="row">
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/git/reset-checkout-revert/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/git/hero.svg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/git/reset-checkout-revert/">reset-checkout-revert</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-01-10T17:28:53JST">Jan 10, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/git/">git</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/python/import/">import</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-11-25T17:11:17JST">Nov 25, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        <div class="col-sm-12"></div>
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/">记windows通过linux共享上网</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-29T22:31:40JST">Oct 29, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/">常用调试工具</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-24T21:14:38JST">Oct 24, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/linux/">linux</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        <div class="col-sm-12"></div>
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/shterm/lvs/">lvs</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-16T17:16:41JST">Oct 16, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/shterm/">shterm</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/logging_flow.png);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/python/logging/">logging</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-10-08T22:28:53JST">Oct 8, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/python/">python</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        <div class="col-sm-12"></div>
+        
+      </div>
+    </div>
+  </section>
+
+  
+  <section>
+    <header>category</header>
+    <div>
+      <ul class="p-terms">
+        <li><a href="https://lidm1989.github.io/categories/linux">linux</a></li><li><a href="https://lidm1989.github.io/categories/python">python</a></li><li><a href="https://lidm1989.github.io/categories/git">git</a></li>
+      </ul>
+    </div>
+  </section>
+  
+  <section>
+    <header>tag</header>
+    <div>
+      <ul class="p-terms">
+        <li><a href="https://lidm1989.github.io/tags/iptables">iptables</a></li>
+      </ul>
+    </div>
+  </section>
+  
+
+</aside>
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; lidm&#39;s blog</span></p>
+      </div>
+    </footer>
+
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

@@ -53,6 +53,35 @@
     <div class="row">
       
       <div class="col-sm-6 col-xs-12"><article class="li">
+  <a href="https://lidm1989.github.io/git/reset-checkout-revert/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/git/hero.svg);"></a>
+  <div class="content-inner thin">
+    <h2 class="title"><a href="https://lidm1989.github.io/git/reset-checkout-revert/">reset-checkout-revert</a></h2>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-01-10T17:28:53JST">Jan 10, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/git/">git</a></li>
+      
+    </ul>
+
+    <div class="summary">Reset, Checkout and Revert git reset、git checkout和git revert是git工具集中最常用的一些命令。它们都允许你对你的仓库undo某类改动，git reset和git checkout可作用于commits或files，revert只能作用于commits。
+由于它们的功能非常的相似，在开发过程中很难区分哪个命令应该用于哪个开发场景。在这篇文章中我们将会比较这三个命令。希望你能在你的仓库中熟练地使用这些命令。
+  当你浏览这篇文章时，把每个命令的作用效果与git仓库的三个概念（工作目录，暂存区，提交历史）结合起来会对你很有帮助。
+Commit级操作 git reset和git checkout根据传入的参数来决定其作用的范围。当参数中不含有文件路径时，它们作用于整个commits。这正是我们这个部分所要讨论的。注意，git revert不作用于files。
+Reset 当作用于commit时，reset可以用于改变分支指针的指向。这可以被用来删除当前分支的commits。例如，下面的命令将hotfix分支向后移动两个commits。
+git checkout hotfix git reset HEAD~2  hostfix分支尾部的两个commits现在处于悬挂状态，这意味着在下次git执行垃圾回收时这两个commits会被删除。换句话说，你在告诉git正在抛弃这两个commits。请看下面图示：
+  git reset的这种用法常用于undo还没有被共享的改动。当你正添加一个新的feature且突然想重新开始时，这是你的goto命令。
+除了在当前分支来回移动，通过命令行选项git reset也可用来改动暂存区和工作目录： * &ndash;soft &ndash; 不改动暂存区和工作目录 * &ndash;mixed &ndash; 更新暂存区到特定的commit，但是不改动工作目录。这是默认行为。 * &ndash;hard &ndash; 更新暂存区和工作目录到特定commit
+请看下面图示：
+  这些选项常被用于HEAD commit。例如，git reset --mixed HEAD将暂存区的改动移回工作目录。另外，如果你想完全抛弃所有未提交的改动，可以使用git reset --hard HEAD。这两个场景也是最常用的。
+当git reset作用于非HEAD commit时一定要格外小心，因为它变更了commit history。
+Checkout 现在你应该很熟悉git commit作用于commits了。当作用于分支名时，它允许你在在分支间进行切换。
+git checkout hotfix  上面的命令将HEAD指向另一个分支并更新工作目录到相应分支。由于这个命令有可能覆盖本地的变更，git会要求我们commit或stash工作目录可能会被覆盖的变更。git reset与git checkout不切换分支。</div>
+  </div>
+</article>
+</div>
+      
+      
+      <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <div class="content-inner thin">
     <h2 class="title"><a href="https://lidm1989.github.io/python/import/">import</a></h2>
@@ -69,7 +98,7 @@
   </div>
 </article>
 </div>
-      
+      <div class="col-sm-12"></div>
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
@@ -89,7 +118,7 @@
   </div>
 </article>
 </div>
-      <div class="col-sm-12"></div>
+      
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
@@ -111,7 +140,7 @@ fuser fuser使用文件或者套节字来识别进程
   </div>
 </article>
 </div>
-      
+      <div class="col-sm-12"></div>
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
@@ -137,7 +166,7 @@ lvs资源 lvs运行在master/slave模式。master节点在指定网卡上配置v
   </div>
 </article>
 </div>
-      <div class="col-sm-12"></div>
+      
       
       <div class="col-sm-6 col-xs-12"><article class="li">
   <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/logging_flow.png);"></a>
@@ -160,7 +189,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </div>
 </article>
 </div>
-      
+      <div class="col-sm-12"></div>
       
     </div>
 
@@ -176,6 +205,20 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
       <div class="row">
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
+  <a href="https://lidm1989.github.io/git/reset-checkout-revert/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/git/hero.svg);"></a>
+  <header>
+    <div class="title"><a href="https://lidm1989.github.io/git/reset-checkout-revert/">reset-checkout-revert</a></div>
+
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-01-10T17:28:53JST">Jan 10, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="https://lidm1989.github.io/git/">git</a></li>
+    </ul>
+  </header>
+</article>
+</div>
+        
+        
+        <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/python/import/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/python.jpg);"></a>
   <header>
     <div class="title"><a href="https://lidm1989.github.io/python/import/">import</a></div>
@@ -187,7 +230,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        
+        <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/linux/%E8%AE%B0windows%E9%80%9A%E8%BF%87linux%E5%85%B1%E4%BA%AB%E4%B8%8A%E7%BD%91/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/iptables.jpg);"></a>
@@ -201,7 +244,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        <div class="col-sm-12"></div>
+        
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/linux/%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/linux/debug.jpg);"></a>
@@ -215,7 +258,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        
+        <div class="col-sm-12"></div>
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/shterm/lvs/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/shterm/lvs.png);"></a>
@@ -229,7 +272,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        <div class="col-sm-12"></div>
+        
         
         <div class="col-md-12 col-sm-6 col-xs-12"><article class="li sm">
   <a href="https://lidm1989.github.io/python/logging/" class="thumb" style="background-image: url(https://lidm1989.github.io/images/python/logging_flow.png);"></a>
@@ -243,7 +286,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
   </header>
 </article>
 </div>
-        
+        <div class="col-sm-12"></div>
         
       </div>
     </div>
@@ -254,7 +297,7 @@ ERROR:root:Excepion: Traceback (most recent call last): File &quot;&lt;stdin&gt;
     <header>category</header>
     <div>
       <ul class="p-terms">
-        <li><a href="https://lidm1989.github.io/categories/linux">linux</a></li><li><a href="https://lidm1989.github.io/categories/python">python</a></li>
+        <li><a href="https://lidm1989.github.io/categories/linux">linux</a></li><li><a href="https://lidm1989.github.io/categories/python">python</a></li><li><a href="https://lidm1989.github.io/categories/git">git</a></li>
       </ul>
     </div>
   </section>
